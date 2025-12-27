@@ -29,7 +29,6 @@ export async function OPTIONS() {
 
 export async function POST(req: Request) {
   try {
-    import mime from "mime-types";
    const formData = await req.formData()
     const file = formData.get("file") as File | null
     const code = formData.get("code") as string | null
