@@ -1,4 +1,6 @@
 export const runtime = "nodejs";
+console.log("DB MIME:", data.mime_type);
+console.log("DB NAME:", data.original_name);
 
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
@@ -23,7 +25,7 @@ export async function POST(req: Request) {
     // 🔎 DB = SOURCE OF TRUTH
     const { data, error } = await supabase
       .from("uploads")
-      .select("file_path, password_hash, expires_at")
+     .select("file_path, password_hash, expires_at, original_name, mime_type")
       .eq("code", code)
       .single();
 
@@ -66,10 +68,9 @@ export async function POST(req: Request) {
     }
 
     const buffer = Buffer.from(await file.arrayBuffer());
-
+   console.log("DOWNLOAD:", data.original_name, data.mime_type);
     return new Response(buffer, {
-      headers: {
-        "Content-Type": "application/octet-stream",
+      headers:
         "Content-Disposition": `attachment; filename="${data.file_path.split("/").pop()}"`
       }
     });
