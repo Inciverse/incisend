@@ -68,7 +68,6 @@ export async function POST(req: Request) {
     }
 
     const buffer = Buffer.from(await file.arrayBuffer());
-   console.log("DOWNLOAD:", data.original_name, data.mime_type);
     return new Response(buffer, {
       headers:
         "Content-Disposition": `attachment; filename="${data.file_path.split("/").pop()}"`
