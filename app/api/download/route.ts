@@ -1,6 +1,4 @@
 export const runtime = "nodejs";
-console.log("DB MIME:", data.mime_type);
-console.log("DB NAME:", data.original_name);
 
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
@@ -28,6 +26,10 @@ export async function POST(req: Request) {
      .select("file_path, password_hash, expires_at, original_name, mime_type")
       .eq("code", code)
       .single();
+
+
+    console.log("DB MIME:", data.mime_type);
+    console.log("DB NAME:", data.original_name);
 
     if (error || !data) {
       return NextResponse.json(
