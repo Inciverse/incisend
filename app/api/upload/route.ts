@@ -1,5 +1,5 @@
 export const runtime = "nodejs";
-import mime from "mime-types";
+
 console.log("SUPABASE_URL =", process.env.SUPABASE_URL)
 
 import bcrypt from "bcryptjs";
