@@ -26,7 +26,6 @@ export async function GET() {
 export async function OPTIONS() {
   return NextResponse.json({}, { status: 200 })
 }
-
 export async function POST(req: Request) {
   try {
     const formData = await req.formData()
