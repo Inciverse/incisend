@@ -29,7 +29,7 @@ export async function OPTIONS() {
 
 export async function POST(req: Request) {
   try {
-   const formData = await req.formData()
+    const formData = await req.formData()
     const file = formData.get("file") as File | null
     const code = formData.get("code") as string | null
     const password = formData.get("password") as string;
