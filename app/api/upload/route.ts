@@ -1,4 +1,5 @@
 export const runtime = "nodejs";
+import mime from "mime-types";
 console.log("SUPABASE_URL =", process.env.SUPABASE_URL)
 
 import bcrypt from "bcryptjs";
@@ -28,7 +29,9 @@ export async function OPTIONS() {
 
 export async function POST(req: Request) {
   try {
-    const formData = await req.formData()
+    import mime from "mime-types";
+import mime from "mime-types";
+   const formData = await req.formData()
     const file = formData.get("file") as File | null
     const code = formData.get("code") as string | null
     const password = formData.get("password") as string;
@@ -47,6 +50,8 @@ export async function POST(req: Request) {
         { status: 413 }
       )
     }
+    const detectedMime =
+  mime.lookup(file.name) || "application/octet-stream";
 
     const timestamp = Date.now()
     const filePath = `uploads/${code}-${timestamp}-${file.name}`
@@ -73,6 +78,8 @@ export async function POST(req: Request) {
         {
           code,
           file_path: filePath,
+          original_name: file.name,
+          mime_type: detectedMime,
           uploaded_at: new Date().toISOString(),
           expires_at: expiresAt,
           password_hash: passwordHash,
