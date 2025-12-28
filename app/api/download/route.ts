@@ -71,10 +71,11 @@ export async function POST(req: Request) {
 
     const buffer = Buffer.from(await file.arrayBuffer());
     return new Response(buffer, {
-      headers:
-        "Content-Disposition": `attachment; filename="${data.file_path.split("/").pop()}"`
-      }
-    });
+  headers: {
+    "Content-Type": data.mime_type,
+    "Content-Disposition": `attachment; filename="${data.original_name}"`
+  }
+});
 
   } catch (err) {
     console.error("DOWNLOAD ERROR:", err);
