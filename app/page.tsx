@@ -7,13 +7,12 @@ export default function Home() {
       {/* HERO */}
       <div className="text-center max-w-2xl">
         <h1 className="text-4xl font-bold mb-4">
-          Share files that automatically delete after 1 hour
+          Secure File Transfer With Auto Expiry
           <br />
-          No accounts. No links to guess.
         </h1>
-
+         
         <p className="text-lg text-slate-600">
-         Share sensitive files without leaving permanent data behind.
+         Share sensitive documents instantly. No aaccounts required-files are encrypted and permanently deleted after 1 hour
         </p>
 
         <div className="flex justify-center gap-4 mt-8">
@@ -70,8 +69,8 @@ export default function Home() {
         </div>
 
         <div className="card">
-          <h3 className="font-semibold mb-2">🧱 Built to scale</h3>
-          <p>Powered by cloud storage and a modern backend.</p>
+          <h3 className="font-semibold mb-2">🧱 Encryption Standard</h3>
+          <p>Encryption Standard With AES-256.</p>
         </div>
       </div>
     </section>
