@@ -17,11 +17,11 @@ export default function Home() {
 
         <div className="flex justify-center gap-4 mt-8">
           <Link href="/send">
-            <button className="primary">Send a File</button>
+            <button className="primary">Start Upload</button>
           </Link>
 
           <Link href="/receive">
-            <button className="secondary">Receive a File</button>
+            <button className="secondary">Have a Code ? </button>
           </Link>
         </div>
       </div>
