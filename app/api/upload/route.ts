@@ -39,8 +39,11 @@ export async function POST(req: Request) {
       return NextResponse.json(
         { error: "Missing file or code" },
         { status: 400 }
-      )
+      );
     }
+
+    const detectedMime =
+      mime.lookup(file.name) || "application/octet-stream";
 
     if (file.size > MAX_FILE_SIZE) {
       return NextResponse.json(
