@@ -5,7 +5,7 @@ export default function Home() {
     <section className="flex flex-col items-center gap-14">
       {/* HERO */}
       <div className="text-center max-w-2xl">
-        <h1>Share files that automatically delete after 1 hour</h1>
+        <h1>Secure File Transfer With Auto-Expiry</h1>
         
         <p className="text-lg text-slate-600">
          Share sensitive documents instantly. No aaccounts required-files are encrypted and permanently deleted after 1 hour
