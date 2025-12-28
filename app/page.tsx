@@ -13,8 +13,7 @@ export default function Home() {
         </h1>
 
         <p className="text-lg text-slate-600">
-          Incisend lets you send files using a one-time magic code and password.
-          Perfect for sensitive files you don’t want exposed.
+         Share sensitive files without leaving permanent data behind.
         </p>
 
         <div className="flex justify-center gap-4 mt-8">
