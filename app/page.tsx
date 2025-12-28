@@ -2,6 +2,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
+    <section className="flex flex-col items-center gap-14">
       {/* HERO */}
       <div className="text-center max-w-2xl">
         <h1>Secure File Transfer With Auto-Expiry</h1>
