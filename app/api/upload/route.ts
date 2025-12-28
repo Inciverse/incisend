@@ -47,9 +47,7 @@ export async function POST(req: Request) {
         { status: 413 }
       )
     }
-    const detectedMime =
-  mime.lookup(file.name) || "application/octet-stream";
-
+   
     const timestamp = Date.now()
     const filePath = `uploads/${code}-${timestamp}-${file.name}`
 
