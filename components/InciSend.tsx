@@ -119,11 +119,12 @@ export default function Incisend({ mode }: { mode: "send" | "receive" }) {
     <br />
 
     <button
-      onClick={handleSend}
-      className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 rounded-lg transition"
-    >
-      Generate Magic Code
-    </button>
+  type="button"
+  onClick={handleSend}
+  className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 rounded-lg transition"
+>
+  Generate Magic Code
+</button>
 
     {code && (
       <div className="mt-8 rounded-2xl bg-indigo-600 px-6 py-5 text-center shadow-xl">
