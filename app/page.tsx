@@ -3,9 +3,14 @@ import Link from "next/link";
 export default function Home() {
   return (
     <section className="flex flex-col items-center gap-14">
+
       {/* HERO */}
       <div className="text-center max-w-2xl">
-        <h1>Secure File Transfer With Auto-Expiry</h1>
+        <h1 className="text-4xl font-bold mb-4">
+          Share files privately.
+          <br />
+          No accounts. No links to guess.
+        </h1>
         
         <p className="text-lg text-slate-600">
          Share sensitive documents instantly. No aaccounts required-files are encrypted and permanently deleted after 1 hour
