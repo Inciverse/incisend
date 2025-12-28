@@ -134,6 +134,7 @@ export default function Home() {
     <span>☁️ Cloud Storage</span>
   </div>
 </section>
+    </section>
 
 
 
