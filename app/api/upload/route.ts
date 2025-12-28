@@ -1,3 +1,4 @@
+import mime from "mime-types";
 export const runtime = "nodejs";
 
 console.log("SUPABASE_URL =", process.env.SUPABASE_URL)
@@ -74,6 +75,7 @@ export async function POST(req: Request) {
           code,
           file_path: filePath,
           original_name: file.name,
+          mime_type: detectedMime,
           uploaded_at: new Date().toISOString(),
           expires_at: expiresAt,
           password_hash: passwordHash,
