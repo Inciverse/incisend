@@ -3,11 +3,13 @@ import Link from "next/link";
 export default function Home() {
   return (
      <section className="flex flex-col items-center gap-14">
+
       {/* HERO */}
       <div className="text-center max-w-2xl">
         <h1 className="text-4xl font-bold mb-4">
-          Secure File Transfer With Auto-Expiry
+          Share files privately.
           <br />
+          No accounts. No links to guess.
         </h1>
          
         <p className="text-lg text-slate-600">
