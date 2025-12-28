@@ -31,14 +31,60 @@ export default function AboutPage() {
         <li>No File will be saved after 1 hour</li>
       </ul>
 
-      <h2 className="text-2xl font-semibold mt-10 mb-4">How It Works</h2>
+      {/* HOW IT WORKS */}
+<section className="max-w-6xl w-full">
+  <h2 className="text-center text-2xl font-semibold mb-12">
+    How It Works
+  </h2>
 
-      <ol className="list-decimal list-inside text-lg text-gray-600 mb-6">
-        <li>Upload a file and set a password</li>
-        <li>Receive a one-time magic code</li>
-        <li>Share the code privately with the recipient</li>
-        <li>Download securely using the code and password</li>
-      </ol>
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+    {/* STEP 1 */}
+    <div className="card text-center relative">
+      <div className="mx-auto mb-4 w-10 h-10 rounded-full bg-black text-white flex items-center justify-center">
+        1
+      </div>
+
+      <div className="text-3xl mb-3">🔐</div>
+
+      <h3 className="font-semibold mb-2">Secure Upload</h3>
+      <p className="text-sm text-slate-600">
+        Select your file and optionally set a password. Your data is encrypted
+        locally in the browser before it reaches our servers.
+      </p>
+    </div>
+
+    {/* STEP 2 */}
+    <div className="card text-center relative">
+      <div className="mx-auto mb-4 w-10 h-10 rounded-full bg-black text-white flex items-center justify-center">
+        2
+      </div>
+
+      <div className="text-3xl mb-3">🪄</div>
+
+      <h3 className="font-semibold mb-2">Generate Magic Code</h3>
+      <p className="text-sm text-slate-600">
+        Receive a unique 6-digit magic code. No long URLs — share the code
+        privately with your recipient.
+      </p>
+    </div>
+
+    {/* STEP 3 */}
+    <div className="card text-center relative">
+      <div className="mx-auto mb-4 w-10 h-10 rounded-full bg-black text-white flex items-center justify-center">
+        3
+      </div>
+
+      <div className="text-3xl mb-3">⏱️</div>
+
+      <h3 className="font-semibold mb-2">Auto-Purge Download</h3>
+      <p className="text-sm text-slate-600">
+        Recipient enters the code to download. After 60 minutes, the file is
+        permanently deleted. No traces left.
+      </p>
+    </div>
+  </div>
+</section>
+
 
       <h2 className="text-2xl font-semibold mt-10 mb-4">Built With Purpose</h2>
 
