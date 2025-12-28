@@ -124,14 +124,14 @@ export default function Home() {
 
   <p className="text-sm text-slate-600 max-w-3xl mx-auto">
     Built with Next.js and Tailwind CSS, using
-    <span className="font-medium"> modern cloud storage</span>. Optimized for
+    <span className="font-medium"> SupaBase Cloud storage</span>. Optimized for
     speed, security, and low-latency file transfers.
   </p>
 
   <div className="flex justify-center gap-6 mt-6 text-sm text-slate-500">
     <span>⚛️ Next.js</span>
     <span>🎨 Tailwind CSS</span>
-    <span>☁️ Cloud Storage</span>
+    <span>☁️ SupaBase</span>
   </div>
 </section>
     </section>
