@@ -20,7 +20,7 @@ export default function Home() {
           </Link>
 
           <Link href="/receive">
-            <button className="secondary">Have a Code?</button>
+            <button className="secondary">Have a Code ?</button>
           </Link>
         </div>
       </div>
