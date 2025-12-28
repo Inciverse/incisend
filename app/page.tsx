@@ -80,6 +80,44 @@ export default function Home() {
 </section>
 
 
+      {/* WHY CHOOSE INCISEND */}
+<section className="max-w-6xl w-full mt-20 rounded-2xl bg-slate-50 p-10">
+  <h2 className="text-center text-2xl font-semibold mb-12">
+    Why Choose Incisend?
+  </h2>
+
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div className="card text-center">
+      <div className="text-3xl mb-4">🕶️</div>
+      <h3 className="font-semibold mb-2">Zero-Knowledge Privacy</h3>
+      <p className="text-sm text-slate-600">
+        We don’t know what you’re sharing. Files are encrypted on the client-side,
+        ensuring only the sender and recipient can access the data.
+      </p>
+    </div>
+
+    <div className="card text-center">
+      <div className="text-3xl mb-4">🚫</div>
+      <h3 className="font-semibold mb-2">No Account Friction</h3>
+      <p className="text-sm text-slate-600">
+        Users don’t want to sign up for one-time transfers. Incisend removes this
+        barrier, increasing usability and repeat usage.
+      </p>
+    </div>
+
+    <div className="card text-center">
+      <div className="text-3xl mb-4">📉</div>
+      <h3 className="font-semibold mb-2">Low Maintenance, High Efficiency</h3>
+      <p className="text-sm text-slate-600">
+        Automatic file deletion keeps storage costs low and predictable —
+        maximizing profit margins for the owner.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+
       {/* TRUST */}
       <div className="max-w-4xl w-full grid grid-cols-1 sm:grid-cols-3 gap-6">
         <div className="card">
