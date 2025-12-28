@@ -28,6 +28,7 @@ export default function AboutPage() {
         <li>No public links</li>
         <li>No tracking</li>
         <li>No unnecessary data collection</li>
+        <li>No File will be saved after 1 hour</li>
       </ul>
 
       <h2 className="text-2xl font-semibold mt-10 mb-4">How It Works</h2>
