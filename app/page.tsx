@@ -8,8 +8,6 @@ export default function Home() {
         <h1>Secure File Transfer With Auto-Expiry</h1>
       </div>
     </section>
-  )
-}
         <p className="text-lg text-slate-600">
          Share sensitive documents instantly. No aaccounts required-files are encrypted and permanently deleted after 1 hour
         </p>
