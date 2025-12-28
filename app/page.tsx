@@ -7,7 +7,7 @@ export default function Home() {
       {/* HERO */}
       <div className="text-center max-w-2xl">
         <h1 className="text-4xl font-bold mb-4">
-          Secure File Transfer With Auto Expiry
+          Secure File Transfer With Auto-Expiry
           <br />
         </h1>
          
