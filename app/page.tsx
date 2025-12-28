@@ -7,7 +7,7 @@ export default function Home() {
       {/* HERO */}
       <div className="text-center max-w-2xl">
         <h1 className="text-4xl font-bold mb-4">
-          Share files privately.
+          Share files that automatically delete after 1 hour
           <br />
           No accounts. No links to guess.
         </h1>
