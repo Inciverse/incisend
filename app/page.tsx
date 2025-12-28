@@ -1,18 +1,17 @@
 import Link from "next/link";
+
 export default function Home() {
   return (
     <section className="flex flex-col items-center gap-14">
-
       {/* HERO */}
       <div className="text-center max-w-2xl">
         <h1 className="text-4xl font-bold mb-4">
-          Share files privately.
-          <br />
-          No accounts. No links to guess.
+          Secure File Transfer With Auto-Expiry
         </h1>
-        
+
         <p className="text-lg text-slate-600">
-         Share sensitive documents instantly. No aaccounts required-files are encrypted and permanently deleted after 1 hour
+          Share sensitive documents instantly. No accounts required — files are
+          encrypted and permanently deleted after 1 hour.
         </p>
 
         <div className="flex justify-center gap-4 mt-8">
@@ -21,7 +20,7 @@ export default function Home() {
           </Link>
 
           <Link href="/receive">
-            <button className="secondary">Have a Code ? </button>
+            <button className="secondary">Have a Code?</button>
           </Link>
         </div>
       </div>
@@ -69,8 +68,11 @@ export default function Home() {
         </div>
 
         <div className="card">
-          <h3 className="font-semibold mb-2">🧱 AES-256 Encryption/h3>
-          <p>Your Files are protected by military-grade encryption. We never see your files. Yous hold the keys.</p>
+          <h3 className="font-semibold mb-2">🧱 AES-256 Encryption</h3>
+          <p>
+            Your files are protected by military-grade encryption. We never see
+            your files. You hold the keys.
+          </p>
         </div>
       </div>
     </section>
