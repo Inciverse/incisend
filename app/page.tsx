@@ -116,28 +116,27 @@ export default function Home() {
   </div>
 </section>
 
+      {/* BUILT WITH MODERN TECH */}
+<section className="max-w-6xl w-full mt-20 text-center">
+  <h2 className="text-xl font-semibold mb-4">
+    Developer-Friendly & Scalable Stack
+  </h2>
+
+  <p className="text-sm text-slate-600 max-w-3xl mx-auto">
+    Built with Next.js and Tailwind CSS, using
+    <span className="font-medium"> modern cloud storage</span>. Optimized for
+    speed, security, and low-latency file transfers.
+  </p>
+
+  <div className="flex justify-center gap-6 mt-6 text-sm text-slate-500">
+    <span>⚛️ Next.js</span>
+    <span>🎨 Tailwind CSS</span>
+    <span>☁️ Cloud Storage</span>
+  </div>
+</section>
 
 
-      {/* TRUST */}
-      <div className="max-w-4xl w-full grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <div className="card">
-          <h3 className="font-semibold mb-2">🔐 Private by design</h3>
-          <p>No public links. Files require both code and password.</p>
-        </div>
 
-        <div className="card">
-          <h3 className="font-semibold mb-2">⚡ Zero friction</h3>
-          <p>No signup, no emails, no waiting.</p>
-        </div>
-
-        <div className="card">
-          <h3 className="font-semibold mb-2">🧱 AES-256 Encryption</h3>
-          <p>
-            Your files are protected by military-grade encryption. We never see
-            your files. You hold the keys.
-          </p>
-        </div>
-      </div>
-    </section>
+      
   );
 }
