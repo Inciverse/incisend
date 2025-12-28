@@ -69,8 +69,8 @@ export default function Home() {
         </div>
 
         <div className="card">
-          <h3 className="font-semibold mb-2">🧱 Encryption Standard</h3>
-          <p>Encryption Standard With AES-256.</p>
+          <h3 className="font-semibold mb-2">🧱 AES-256 Encryption/h3>
+          <p>Your Files are protected by military-grade encryption. We never see your files. Yous hold the keys.</p>
         </div>
       </div>
     </section>
