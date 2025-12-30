@@ -1,6 +1,7 @@
 export default function AboutPage() {
   return (
     <main className="max-w-4xl mx-auto px-6 py-16">
+
       <h1 className="text-4xl font-bold mb-6">About Incisend</h1>
 
       <p className="text-lg text-gray-600 mb-6">
@@ -15,7 +16,9 @@ export default function AboutPage() {
         can access the file.
       </p>
 
-      <h2 className="text-2xl font-semibold mt-10 mb-4">Why Incisend Exists</h2>
+      <h2 className="text-2xl font-semibold mt-10 mb-4">
+        Why Incisend Exists
+      </h2>
 
       <p className="text-lg text-gray-600 mb-6">
         Most file sharing platforms prioritize convenience over privacy.
@@ -23,88 +26,73 @@ export default function AboutPage() {
         friction second.
       </p>
 
-      <ul className="list-disc list-inside text-lg text-gray-600 mb-6">
+      <ul className="list-disc list-inside text-lg text-gray-600 mb-12">
         <li>No accounts</li>
         <li>No public links</li>
         <li>No tracking</li>
         <li>No unnecessary data collection</li>
-        <li>No File will be saved after 1 hour</li>
+        <li>Files auto-delete after 1 hour</li>
       </ul>
 
       {/* HOW IT WORKS */}
-<section className="max-w-6xl w-full">
-  <h2 className="text-center text-2xl font-semibold mb-12">
-    How It Works
-  </h2>
+      <section className="max-w-6xl w-full mb-16">
+        <h2 className="text-center text-2xl font-semibold mb-12">
+          How It Works
+        </h2>
 
-  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-    {/* STEP 1 */}
-    <div className="card text-center relative">
-      <div className="mx-auto mb-4 w-10 h-10 rounded-full bg-black text-white flex items-center justify-center">
-        1
-      </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-      <div className="text-3xl mb-3">🔐</div>
+          <div className="card text-center">
+            <div className="mx-auto mb-4 w-10 h-10 rounded-full bg-black text-white flex items-center justify-center">
+              1
+            </div>
+            <div className="text-3xl mb-3">🔐</div>
+            <h3 className="font-semibold mb-2">Secure Upload</h3>
+            <p className="text-sm text-slate-600">
+              Files are encrypted locally in your browser before upload.
+            </p>
+          </div>
 
-      <h3 className="font-semibold mb-2">Secure Upload</h3>
-      <p className="text-sm text-slate-600">
-        Select your file and optionally set a password. Your data is encrypted
-        locally in the browser before it reaches our servers.
-      </p>
-    </div>
+          <div className="card text-center">
+            <div className="mx-auto mb-4 w-10 h-10 rounded-full bg-black text-white flex items-center justify-center">
+              2
+            </div>
+            <div className="text-3xl mb-3">🪄</div>
+            <h3 className="font-semibold mb-2">Magic Code</h3>
+            <p className="text-sm text-slate-600">
+              Share a short secure code instead of long URLs.
+            </p>
+          </div>
 
-    {/* STEP 2 */}
-    <div className="card text-center relative">
-      <div className="mx-auto mb-4 w-10 h-10 rounded-full bg-black text-white flex items-center justify-center">
-        2
-      </div>
+          <div className="card text-center">
+            <div className="mx-auto mb-4 w-10 h-10 rounded-full bg-black text-white flex items-center justify-center">
+              3
+            </div>
+            <div className="text-3xl mb-3">⏱️</div>
+            <h3 className="font-semibold mb-2">Auto Delete</h3>
+            <p className="text-sm text-slate-600">
+              Files are permanently deleted after 60 minutes.
+            </p>
+          </div>
 
-      <div className="text-3xl mb-3">🪄</div>
+        </div>
+      </section>
 
-      <h3 className="font-semibold mb-2">Generate Magic Code</h3>
-      <p className="text-sm text-slate-600">
-        Receive a unique 6-digit magic code. No long URLs — share the code
-        privately with your recipient.
-      </p>
-    </div>
-
-    {/* STEP 3 */}
-    <div className="card text-center relative">
-      <div className="mx-auto mb-4 w-10 h-10 rounded-full bg-black text-white flex items-center justify-center">
-        3
-      </div>
-
-      <div className="text-3xl mb-3">⏱️</div>
-
-      <h3 className="font-semibold mb-2">Auto-Purge Download</h3>
-      <p className="text-sm text-slate-600">
-        Recipient enters the code to download. After 60 minutes, the file is
-        permanently deleted. No traces left.
-      </p>
-    </div>
-  </div>
-</section>
-
-      <p className="text-lg text-gray-500 mb-10">
-        Incisend is designed to be minimal, fast, and scalable, focusing on privacy-first file sharing.
-      </p>
-
-      {/* Contact Us */}
+      {/* CONTACT */}
       <h3 id="contact-us" className="text-xl font-semibold mb-2">
         Contact Us
       </h3>
 
-      <p className="text-gray-600">
+      <p className="text-gray-600 mb-16">
         For support or inquiries, reach out at <b>support@incisend.com</b>
       </p>
 
-    </div>
-  );
-}
-
-      <footer className="border-t pt-6 text-gray-500 text-sm">
+      {/* FOOTER */}
+      <footer className="border-t pt-6 text-gray-500 text-sm text-center">
         Built by <span className="font-medium">InciVerse</span> • © 2025
       </footer>
+
     </main>
   );
 }
+
