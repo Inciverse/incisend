@@ -23,7 +23,7 @@ export default function InciSend({ mode }: { mode: "send" | "receive" }) {
   const [code, setCode] = useState("");
   const [inputCode, setInputCode] = useState("");
   const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+ const [dragActive, setDragActive] = useState(false);
 
 
   /* ================= SEND ================= */
