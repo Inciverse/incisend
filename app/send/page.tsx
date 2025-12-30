@@ -3,7 +3,7 @@ import InciSend from "../../components/InciSend";
 export default function SendPage() {
   return (
     <div className="flex justify-center">
-      <div className="w-full max-w-xl">
+      <div className="w-full max-w-2xl">
         <div className="card">
           <div className="text-center mb-6">
             <h1 className="text-2xl font-bold mb-2">
