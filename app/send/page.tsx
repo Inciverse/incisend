@@ -9,10 +9,8 @@ export default function SendPage() {
             <h1 className="text-2xl font-bold mb-2">
               Send a File Securely
             </h1>
-            
 
-
-<p className="text-sm text-slate-500">
+            <p className="text-sm text-slate-500">
               Upload a file, set a password, and share the magic code.
             </p>
           </div>
@@ -24,7 +22,7 @@ export default function SendPage() {
             </p>
           </div>
 
-          <InciSend mode="send" />
+          <InciSend />
         </div>
       </div>
     </div>
