@@ -153,7 +153,7 @@ export default function InciSend({ mode }: { mode: "send" | "receive" }) {
         </>
       )}
 
-      {mode === "receive" && (
+{mode === "receive" && (
   <div className="space-y-6">
     {/* Info Box */}
     <div className="rounded-lg border border-indigo-100 bg-indigo-50 p-4">
@@ -210,4 +210,5 @@ export default function InciSend({ mode }: { mode: "send" | "receive" }) {
     </p>
   </div>
 )}
+
 
