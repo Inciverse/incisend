@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Eye, EyeOff, UploadCloud } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 
 const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 
@@ -83,151 +83,80 @@ export default function InciSend({ mode }: { mode: "send" | "receive" }) {
   };
 
   // ================= UI =================
-return (
-  <div className="space-y-6">
+  return (
+    <div className="space-y-6">
 
-    {mode === "send" && (
-      <div>
-        <input
-          type="file"
-          onChange={(e) => {
-            const selectedFile = e.target.files?.[0] || null;
-            if (!selectedFile) return;
+      {/* ================= SEND UI ================= */}
+      {mode === "send" && (
+        <div className="space-y-4">
+          <input
+            type="file"
+            onChange={(e) => {
+              const selectedFile = e.target.files?.[0] || null;
+              if (!selectedFile) return;
 
-            if (selectedFile.size > MAX_FILE_SIZE) {
-              alert("Max file size is 50MB");
-              e.target.value = "";
-              setFile(null);
-              return;
-            }
+              if (selectedFile.size > MAX_FILE_SIZE) {
+                alert("Max file size is 50MB");
+                e.target.value = "";
+                setFile(null);
+                return;
+              }
 
-            setFile(selectedFile);
-          }}
-        />
+              setFile(selectedFile);
+            }}
+          />
 
-        <input
-          type="password"
-          placeholder="Set password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <button
-          onClick={handleSend}
-          className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg"
-        >
-          Generate Secure Code
-        </button>
-
-        {code && (
-          <div className="mt-6 rounded-xl bg-indigo-600 p-4 text-center text-white">
-            <p className="text-xs opacity-80">Your Magic Code</p>
-            <p className="text-3xl font-mono font-bold">{code}</p>
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Set password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full rounded-lg border px-4 py-2 pr-10"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500"
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
           </div>
-        )}
-      </div>
-    )}
 
-    {mode === "receive" && (
-      <div className="bg-white shadow-lg rounded-xl p-6 space-y-4">
-        <h1 className="text-2xl font-bold text-center">Receive File</h1>
+          <button
+            onClick={handleSend}
+            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg"
+          >
+            Generate Secure Code
+          </button>
 
-        <p className="text-center text-sm text-slate-500">
-          Enter your magic code to decrypt and download the file.
-        </p>
-
-        <div className="p-3 bg-indigo-50 border border-indigo-100 rounded-lg text-sm text-indigo-700">
-          Ensure you have the correct code. Files expire after 1 hour.
+          {code && (
+            <div className="mt-6 rounded-xl bg-indigo-600 p-4 text-center text-white">
+              <p className="text-xs opacity-80">Your Magic Code</p>
+              <p className="text-3xl font-mono font-bold">{code}</p>
+            </div>
+          )}
         </div>
+      )}
 
-        <input
-          placeholder="Secure Code"
-          value={inputCode}
-          onChange={(e) => setInputCode(e.target.value.toUpperCase())}
-        />
-
-        <input
-          type="password"
-          placeholder="Password (only if sender set one)"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <button
-          onClick={handleReceive}
-          className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg"
-        >
-          Decrypt & Download
-        </button>
-
-        <p className="text-center text-xs text-slate-500">
-          Files are decrypted locally in your browser.
-        </p>
-      </div>
-    )}
-
-    {message && (
-      <p className="text-center text-sm text-slate-600">{message}</p>
-    )}
-
-  </div>
-);
-
-
+      {/* ================= RECEIVE UI ================= */}
       {mode === "receive" && (
-  <div className="card space-y-6">
-    {/* Info Box */}
-    <div className="rounded-lg border border-indigo-100 bg-indigo-50 p-4">
-      <p className="text-sm text-indigo-700">
-        🔐 Ensure you have the correct magic code. Files expire automatically after 1 hour.
-      </p>
-    </div>
+        <div className="card space-y-6 bg-white shadow-lg rounded-xl p-6">
+          <div className="rounded-lg border border-indigo-100 bg-indigo-50 p-4">
+            <p className="text-sm text-indigo-700">
+              🔐 Ensure you have the correct magic code. Files expire after 1 hour.
+            </p>
+          </div>
 
-    {/* Title */}
-    <div className="text-center">
-      <h2 className="text-2xl font-bold">Receive File</h2>
-      <p className="mt-1 text-sm text-slate-500">
-        Enter your unique magic code to decrypt and download the file.
-      </p>
-    </div>
+          <div className="text-center">
+            <h2 className="text-2xl font-bold">Receive File</h2>
+            <p className="mt-1 text-sm text-slate-500">
+              Enter your unique magic code to decrypt and download the file.
+            </p>
+          </div>
 
-    {/* Code Input */}
-    <input
-      placeholder="Enter secure magic code"
-      value={inputCode}
-      onChange={(e) => setInputCode(e.target.value.toUpperCase())}
-      className="w-full rounded-lg border px-4 py-2"
-    />
-
-    {/* Password */}
-    <div className="relative">
-      <input
-        type={showPassword ? "text" : "password"}
-        placeholder="Password (only if sender set one)"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        className="w-full rounded-lg border px-4 py-2 pr-10"
-      />
-      <button
-        type="button"
-        onClick={() => setShowPassword(!showPassword)}
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500"
-      >
-        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-      </button>
-    </div>
-
-    {/* Action */}
-    <button
-      onClick={handleReceive}
-      className="w-full rounded-lg bg-indigo-600 py-2 font-medium text-white hover:bg-indigo-700 transition"
-    >
-      Decrypt & Download
-    </button>
-
-    {/* Trust Line */}
-    <p className="text-center text-xs text-slate-500">
-      Files are decrypted locally in your browser.
-    </p>
-  </div>
-)}
+          <input
+            placeholder="Enter secure magic code"
+            value={inputCode}
+            onChange={(e) => setInputCode(e.target.value.toUpperCase())}
+            className=
