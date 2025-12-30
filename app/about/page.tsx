@@ -85,8 +85,10 @@ export default function AboutPage() {
   </div>
 </section>
 
-      <div className="mt-12 border-t pt-8">
-  <h3 className="text-xl font-semibold">Contact Us</h3>
+     <h3 id="contact-us" className="text-xl font-semibold">
+  Contact Us
+</h3>
+
 
   <p className="mt-2 text-slate-600">
     Have questions or feedback? Reach out directly.
