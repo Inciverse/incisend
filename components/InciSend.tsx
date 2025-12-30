@@ -92,61 +92,67 @@ export default function InciSend({ mode }: { mode: "send" | "receive" }) {
     setMessage("File downloaded successfully.");
   };
 
-  /* ================= UI ================= */
- {mode === "send" && (
-  <div className="space-y-5">
-    {/* Security Info */}
-    <div className="flex items-center gap-2 rounded-lg border border-indigo-100 bg-indigo-50 p-4 text-sm text-indigo-800">
+/* ================= SEND UI ================= */
+
+return (
+  <div className="space-y-6">
+
+    {/* INFO BAR */}
+    <div className="rounded-lg border border-blue-100 bg-blue-50 p-4 text-sm text-blue-700 flex items-center gap-2">
       <Shield size={16} />
-      Files are encrypted locally. We never store passwords.
+      Files are encrypted locally and auto-deleted after 1 hour.
     </div>
 
-    {/* Drag & Drop */}
-    <div
-      className={`cursor-pointer rounded-xl border-2 border-dashed p-6 text-center transition ${
-        file ? "border-emerald-500 bg-emerald-50" : "border-slate-300 hover:border-indigo-400 hover:bg-indigo-50"
-      }`}
-      onClick={() => document.getElementById("fileInput")?.click()}
+    {/* TITLE */}
+    <div className="text-center">
+      <h2 className="text-2xl font-bold">Send a File Securely</h2>
+      <p className="mt-1 text-sm text-slate-500">
+        No accounts. No permanent storage. Fully private.
+      </p>
+    </div>
+
+    {/* UPLOAD CARD */}
+    <label
+      className={`flex flex-col items-center justify-center rounded-lg border-2 border-dashed p-8 text-center transition cursor-pointer
+        ${
+          dragActive
+            ? "border-indigo-500 bg-indigo-50"
+            : "border-slate-300"
+        }`}
+      onDragOver={(e) => {
+        e.preventDefault();
+        setDragActive(true);
+      }}
+      onDragLeave={() => setDragActive(false)}
+      onDrop={(e) => {
+        e.preventDefault();
+        setDragActive(false);
+        setFile(e.dataTransfer.files?.[0] || null);
+      }}
     >
-      {file ? (
-        <div className="flex flex-col items-center gap-2">
-          <CheckCircle className="h-8 w-8 text-emerald-600" />
-          <p className="text-sm font-semibold text-emerald-700">{file.name}</p>
-          <p className="text-xs text-emerald-600">
-            {(file.size / 1024 / 1024).toFixed(2)} MB selected
-          </p>
-        </div>
-      ) : (
-        <>
-          <UploadCloud className="mx-auto h-8 w-8 text-indigo-600" />
-          <p className="mt-2 text-sm font-medium">Drag & drop your file here</p>
-          <p className="text-xs text-slate-500">or click to browse (Max 50MB)</p>
-        </>
-      )}
+      <Upload className="mb-2 text-slate-400" />
+      <p className="text-sm text-slate-600">
+        Drag & drop a file or click to upload
+      </p>
+      <p className="mt-1 text-xs text-slate-400">
+        Max file size: 50 MB
+      </p>
+
       <input
-        id="fileInput"
         type="file"
         className="hidden"
-        onChange={(e) => {
-          const selectedFile = e.target.files?.[0];
-          if (!selectedFile) return;
-          if (selectedFile.size > MAX_FILE_SIZE) {
-            setMessage("❌ Max file size is 50MB");
-            return;
-          }
-          setFile(selectedFile);
-        }}
+        onChange={(e) => setFile(e.target.files?.[0] || null)}
       />
-    </div>
+    </label>
 
-    {/* Password */}
+    {/* PASSWORD */}
     <div className="relative">
       <input
         type={showPassword ? "text" : "password"}
-        placeholder="Set password"
+        placeholder="Set a password (optional)"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        className="w-full rounded-lg border px-4 py-3 pr-10"
+        className="w-full rounded-lg border px-4 py-2 pr-10"
       />
       <button
         type="button"
@@ -157,38 +163,33 @@ export default function InciSend({ mode }: { mode: "send" | "receive" }) {
       </button>
     </div>
 
-    {/* Meta Info */}
-    <p className="text-xs text-slate-500">
-      Max file size: 50MB · Files auto-delete after 1 hour
+    {/* EXPIRY NOTE */}
+    <p className="text-xs text-slate-500 text-center">
+      Your file will expire automatically 1 hour after upload.
     </p>
 
-    {/* Action */}
+    {/* ACTION */}
     <button
       onClick={handleSend}
-      disabled={loading}
-      className={`w-full rounded-lg py-2 font-medium text-white transition ${
-        loading ? "bg-slate-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-700"
-      }`}
+      className="w-full rounded-lg bg-indigo-600 py-2 font-medium text-white transition hover:bg-indigo-700"
     >
-      {loading ? "Uploading..." : "Generate Secure Code"}
+      Generate Secure Code
     </button>
 
-    {/* Code Output */}
-    {code && (
-      <div className="mt-6 rounded-xl bg-indigo-700 p-5 text-center shadow-xl">
-        <p className="text-xs uppercase tracking-widest text-white/80">
-          Your Magic Code
-        </p>
-        <p className="mt-2 text-4xl font-mono font-extrabold tracking-widest text-white">
-          {code}
-        </p>
-        <p className="mt-3 text-xs text-white/90">
-          Share this code + password securely
-        </p>
-      </div>
+    {/* FOOT TRUST */}
+    <p className="text-center text-xs text-slate-500">
+      We never store passwords. Decryption happens in your browser.
+    </p>
+
+    {message && (
+      <p className="text-center text-sm text-slate-500">
+        {message}
+      </p>
     )}
+
   </div>
-)}
+);
+
 
      /* ================= UI ================= */
   
@@ -206,7 +207,7 @@ export default function InciSend({ mode }: { mode: "send" | "receive" }) {
         <div className="text-center">
           <h2 className="text-2xl font-bold">Receive File</h2>
           <p className="mt-1 text-sm text-slate-500">
-            Enter your unique magic code to decrypt and download.
+            Enter your unique Secure code to decrypt and download.
           </p>
         </div>
 
