@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, UploadCloud, Shield } from "lucide-react";
 
 const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 
@@ -91,32 +91,53 @@ export default function InciSend({ mode }: { mode: "send" | "receive" }) {
 
       {/* ================= SEND UI ================= */}
       {mode === "send" && (
-        <div className="space-y-4">
+        <div className="space-y-5">
 
-          <input
-            type="file"
-            onChange={(e) => {
-              const selectedFile = e.target.files?.[0] || null;
-              if (!selectedFile) return;
+          {/* Security Info */}
+          <div className="flex items-center gap-2 rounded-lg border border-indigo-100 bg-indigo-50 p-4 text-sm text-indigo-700">
+            <Shield size={16} />
+            Files are encrypted locally. We never store passwords.
+          </div>
 
-              if (selectedFile.size > MAX_FILE_SIZE) {
-                alert("Max file size is 50MB");
-                e.target.value = "";
-                setFile(null);
-                return;
-              }
+          {/* Drag & Drop */}
+          <div
+            className="cursor-pointer rounded-xl border-2 border-dashed border-slate-300 p-6 text-center transition hover:border-indigo-400 hover:bg-indigo-50"
+            onClick={() => document.getElementById("fileInput")?.click()}
+          >
+            <UploadCloud className="mx-auto h-8 w-8 text-indigo-600" />
+            <p className="mt-2 text-sm font-medium">
+              Drag & drop your file here
+            </p>
+            <p className="text-xs text-slate-500">
+              or click to browse (Max 50MB)
+            </p>
 
-              setFile(selectedFile);
-            }}
-          />
+            <input
+              id="fileInput"
+              type="file"
+              className="hidden"
+              onChange={(e) => {
+                const selectedFile = e.target.files?.[0];
+                if (!selectedFile) return;
 
+                if (selectedFile.size > MAX_FILE_SIZE) {
+                  setMessage("Max file size is 50MB");
+                  return;
+                }
+
+                setFile(selectedFile);
+              }}
+            />
+          </div>
+
+          {/* Password */}
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Set password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-lg border px-4 py-2 pr-10"
+              className="w-full rounded-lg border px-4 py-3 pr-10"
             />
             <button
               type="button"
@@ -127,18 +148,29 @@ export default function InciSend({ mode }: { mode: "send" | "receive" }) {
             </button>
           </div>
 
+          {/* Meta Info */}
+          <p className="text-xs text-slate-500">
+            Max file size: 50MB · Files auto-delete after 1 hour
+          </p>
+
+          {/* Action */}
           <button
             onClick={handleSend}
-            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg transition"
+            className="w-full rounded-lg bg-indigo-600 py-2 font-medium text-white hover:bg-indigo-700 transition"
           >
             Generate Secure Code
           </button>
 
+          {/* Code Output */}
           {code && (
-            <div className="mt-6 rounded-xl bg-indigo-600 p-4 text-center text-white">
-              <p className="text-xs opacity-80">Your Magic Code</p>
-              <p className="text-3xl font-mono font-bold">{code}</p>
-              <p className="mt-2 text-xs opacity-80">
+            <div className="mt-6 rounded-xl bg-indigo-600 p-5 text-center text-white shadow-lg">
+              <p className="text-xs uppercase tracking-widest opacity-80">
+                Your Magic Code
+              </p>
+              <p className="mt-2 text-3xl font-mono font-extrabold tracking-widest">
+                {code}
+              </p>
+              <p className="mt-3 text-xs opacity-80">
                 Share this code + password securely
               </p>
             </div>
@@ -204,3 +236,4 @@ export default function InciSend({ mode }: { mode: "send" | "receive" }) {
     </div>
   );
 }
+
