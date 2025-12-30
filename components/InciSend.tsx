@@ -1,260 +1,166 @@
 "use client";
 
 import { useState } from "react";
-import {
-  Shield,
-  UploadCloud,
-  Eye,
-  EyeOff,
-  CheckCircle,
-} from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 
+export default function Incisend() {
+  const [mode, setMode] = useState<"send" | "receive">("send");
 
-const MAX_FILE_SIZE = 50 * 1024 * 1024;
-
-function generateCode() {
-  return Math.random().toString(36).substring(2, 8).toUpperCase();
-}
-
-export default function InciSend({ mode }: { mode: "send" | "receive" }) {
-  const [file, setFile] = useState<File | null>(null);
+  // RECEIVE STATES
+  const [inputCode, setInputCode] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [code, setCode] = useState("");
-  const [inputCode, setInputCode] = useState("");
   const [message, setMessage] = useState("");
- const [dragActive, setDragActive] = useState(false);
 
+  // SEND STATES
+  const [file, setFile] = useState<File | null>(null);
+  const [sendPassword, setSendPassword] = useState("");
 
-  /* ================= SEND ================= */
-  const handleSend = async () => {
-    if (!file || !password) {
-      setMessage("Select a file and set a password.");
-      return;
-    }
-
-    if (file.size > MAX_FILE_SIZE) {
-      setMessage("File exceeds 50MB limit.");
-      return;
-    }
-
-    const generatedCode = generateCode();
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("code", generatedCode);
-    formData.append("password", password);
-
-    const res = await fetch("/api/upload", {
-      method: "POST",
-      body: formData,
-    });
-
-    const json = await res.json();
-
-    if (!json.success) {
-      setMessage(json.error || "Upload failed.");
-      return;
-    }
-
-    setCode(generatedCode);
-    setMessage("File uploaded. Share the code & password.");
+  const handleReceive = () => {
+    setMessage("Decrypting file...");
   };
 
-  /* ================= RECEIVE ================= */
-  const handleReceive = async () => {
-    if (!inputCode) {
-      setMessage("Enter the magic code.");
-      return;
-    }
+  return (
+    <div className="space-y-6">
 
-    const res = await fetch("/api/download", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        code: inputCode.trim(),
-        password,
-      }),
-    });
+      {/* MODE SWITCH (optional but useful) */}
+      <div className="flex justify-center gap-2">
+        <button
+          onClick={() => setMode("send")}
+          className={`px-4 py-1 rounded ${
+            mode === "send"
+              ? "bg-indigo-600 text-white"
+              : "border text-slate-600"
+          }`}
+        >
+          Send
+        </button>
+        <button
+          onClick={() => setMode("receive")}
+          className={`px-4 py-1 rounded ${
+            mode === "receive"
+              ? "bg-indigo-600 text-white"
+              : "border text-slate-600"
+          }`}
+        >
+          Receive
+        </button>
+      </div>
 
-    if (!res.ok) {
-      setMessage("Invalid code or file expired.");
-      return;
-    }
+      {/* ================= SEND UI ================= */}
+      {mode === "send" && (
+        <div className="mx-auto w-full max-w-md space-y-5 rounded-xl border bg-white p-6 shadow-sm">
 
-    const blob = await res.blob();
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "downloaded-file";
-    a.click();
-    window.URL.revokeObjectURL(url);
+          <div className="rounded-lg border border-indigo-100 bg-indigo-50 p-4 text-sm text-indigo-700">
+            Files are encrypted locally and auto-deleted after 1 hour.
+          </div>
 
-    setMessage("File downloaded successfully.");
-  };
+          <div className="text-center">
+            <h2 className="text-2xl font-bold">Send a File Securely</h2>
+            <p className="mt-1 text-sm text-slate-500">
+              No signup required. We never store passwords.
+            </p>
+          </div>
 
-/* ================= SEND UI ================= */
+          {/* UPLOAD BOX */}
+          <label
+            className="
+              flex cursor-pointer flex-col items-center justify-center
+              rounded-lg border-2 border-dashed border-slate-300
+              p-8 text-center transition
+              hover:border-indigo-500 hover:bg-indigo-50
+            "
+          >
+            <input
+              type="file"
+              className="hidden"
+              onChange={(e) => setFile(e.target.files?.[0] || null)}
+            />
 
-return (
-  <div className="space-y-6">
+            <p className="text-sm font-medium text-slate-700">
+              {file ? file.name : "Drag & drop a file or click to upload"}
+            </p>
 
-    {/* INFO BAR */}
-    <div className="rounded-lg border border-blue-100 bg-blue-50 p-4 text-sm text-blue-700 flex items-center gap-2">
-      <Shield size={16} />
-      Files are encrypted locally and auto-deleted after 1 hour.
-    </div>
+            <p className="mt-1 text-xs text-slate-500">
+              Max file size: 50MB
+            </p>
+          </label>
 
-    {/* TITLE */}
-    <div className="text-center">
-      <h2 className="text-2xl font-bold">Send a File Securely</h2>
-      <p className="mt-1 text-sm text-slate-500">
-        No accounts. No permanent storage. Fully private.
-      </p>
-    </div>
+          <input
+            type="password"
+            placeholder="Set password (optional)"
+            value={sendPassword}
+            onChange={(e) => setSendPassword(e.target.value)}
+            className="w-full rounded-lg border px-4 py-2"
+          />
 
-    {/* UPLOAD CARD */}
-    <label
-      className={`flex flex-col items-center justify-center rounded-lg border-2 border-dashed p-8 text-center transition cursor-pointer
-        ${
-          dragActive
-            ? "border-indigo-500 bg-indigo-50"
-            : "border-slate-300"
-        }`}
-      onDragOver={(e) => {
-        e.preventDefault();
-        setDragActive(true);
-      }}
-      onDragLeave={() => setDragActive(false)}
-      onDrop={(e) => {
-        e.preventDefault();
-        setDragActive(false);
-        setFile(e.dataTransfer.files?.[0] || null);
-      }}
-    >
-     
-      <p className="text-sm text-slate-600">
-        Drag & drop a file or click to upload
-      </p>
-      <p className="mt-1 text-xs text-slate-400">
-        Max file size: 50 MB
-      </p>
+          <button className="w-full rounded-lg bg-indigo-600 py-2 font-medium text-white transition hover:bg-indigo-700">
+            Generate Secure Code
+          </button>
 
-      <input
-        type="file"
-        className="hidden"
-        onChange={(e) => setFile(e.target.files?.[0] || null)}
-      />
-    </label>
-
-    {/* PASSWORD */}
-    <div className="relative">
-      <input
-        type={showPassword ? "text" : "password"}
-        placeholder="Set a password (optional)"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        className="w-full rounded-lg border px-4 py-2 pr-10"
-      />
-      <button
-        type="button"
-        onClick={() => setShowPassword(!showPassword)}
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500"
-      >
-        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-      </button>
-    </div>
-
-    {/* EXPIRY NOTE */}
-    <p className="text-xs text-slate-500 text-center">
-      Your file will expire automatically 1 hour after upload.
-    </p>
-
-    {/* ACTION */}
-    <button
-      onClick={handleSend}
-      className="w-full rounded-lg bg-indigo-600 py-2 font-medium text-white transition hover:bg-indigo-700"
-    >
-      Generate Secure Code
-    </button>
-
-    {/* FOOT TRUST */}
-    <p className="text-center text-xs text-slate-500">
-      We never store passwords. Decryption happens in your browser.
-    </p>
-
-    {message && (
-      <p className="text-center text-sm text-slate-500">
-        {message}
-      </p>
-    )}
-
-  </div>
-);
-
-
-     /* ================= UI ================= */
-  
-        return (
-        <div className="space-y-6">
-
-            {/* ================= RECEIVE UI ================= */}
-
-              {mode === "receive" && (
-      <div className="space-y-5">
-        <div className="rounded-lg border border-indigo-100 bg-indigo-50 p-4 text-sm text-indigo-700">
-          Ensure you have the correct code. Files expire after 1 hour.
-        </div>
-
-        <div className="text-center">
-          <h2 className="text-2xl font-bold">Receive File</h2>
-          <p className="mt-1 text-sm text-slate-500">
-            Enter your unique Secure code to decrypt and download.
+          <p className="text-center text-xs text-slate-500">
+            Your file will expire 1 hour after upload.
           </p>
         </div>
+      )}
 
-        <input
-          placeholder="Enter secure magic code"
-          value={inputCode}
-          onChange={(e) => setInputCode(e.target.value.toUpperCase())}
-          className="w-full rounded-lg border px-4 py-2"
-        />
+      {/* ================= RECEIVE UI ================= */}
+      {mode === "receive" && (
+        <div className="mx-auto w-full max-w-md space-y-5">
 
-        <div className="relative">
+          <div className="rounded-lg border border-indigo-100 bg-indigo-50 p-4 text-sm text-indigo-700">
+            Ensure you have the correct code. Files expire after 1 hour.
+          </div>
+
+          <div className="text-center">
+            <h2 className="text-2xl font-bold">Receive File</h2>
+            <p className="mt-1 text-sm text-slate-500">
+              Enter your unique Secure code to decrypt and download.
+            </p>
+          </div>
+
           <input
-            type={showPassword ? "text" : "password"}
-            placeholder="Password (only if sender set one)"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded-lg border px-4 py-2 pr-10"
+            placeholder="Enter secure magic code"
+            value={inputCode}
+            onChange={(e) => setInputCode(e.target.value.toUpperCase())}
+            className="w-full rounded-lg border px-4 py-2"
           />
+
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password (only if sender set one)"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full rounded-lg border px-4 py-2 pr-10"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500"
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
+
           <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500"
+            onClick={handleReceive}
+            className="w-full rounded-lg bg-indigo-600 py-2 font-medium text-white transition hover:bg-indigo-700"
           >
-            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            Decrypt & Download
           </button>
+
+          <p className="text-center text-xs text-slate-500">
+            Files are decrypted locally in your browser.
+          </p>
+
+          {message && (
+            <p className="text-center text-sm text-slate-500">
+              {message}
+            </p>
+          )}
         </div>
-
-        <button
-          onClick={handleReceive}
-          className="w-full rounded-lg bg-indigo-600 py-2 font-medium text-white transition hover:bg-indigo-700"
-        >
-          Decrypt & Download
-        </button>
-
-        <p className="text-center text-xs text-slate-500">
-          Files are decrypted locally in your browser.
-        </p>
-      </div>
-    )}
-
-    {message && (
-      <p className="mt-4 text-center text-sm text-slate-500">
-        {message}
-      </p>
-    )}
-
-  </div>
-);
+      )}
+    </div>
+  );
 }
-
