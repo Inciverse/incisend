@@ -1,7 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { Eye, EyeOff, UploadCloud, Shield, Lock } from "lucide-react";
+import {
+  Shield,
+  UploadCloud,
+  Eye,
+  EyeOff,
+  CheckCircle,
+} from "lucide-react";
+
 
 const MAX_FILE_SIZE = 50 * 1024 * 1024;
 
