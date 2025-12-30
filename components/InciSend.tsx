@@ -83,7 +83,6 @@ export default function InciSend({ mode }: { mode: "send" | "receive" }) {
   };
 
   // ================= UI =================
-    // ================= UI =================
   return (
     <div className="space-y-6">
       {mode === "send" && (
