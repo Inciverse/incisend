@@ -85,6 +85,38 @@ export default function AboutPage() {
   </div>
 </section>
 
+      <div className="mt-12 border-t pt-8">
+  <h3 className="text-xl font-semibold">Contact Us</h3>
+
+  <p className="mt-2 text-slate-600">
+    Have questions or feedback? Reach out directly.
+  </p>
+
+  <div className="mt-4 space-y-2 text-sm">
+    <p>
+      📧 Email:{" "}
+      <a
+        href="mailto:support@incisend.com"
+        className="text-indigo-600 hover:underline"
+      >
+        support@incisend.com
+      </a>
+    </p>
+
+    <p>
+      🌐 Website:{" "}
+      <a
+        href="https://incisend-og.vercel.app"
+        className="text-indigo-600 hover:underline"
+        target="_blank"
+      >
+        incisend-og.vercel.app
+      </a>
+    </p>
+  </div>
+</div>
+
+
 
       <h2 className="text-2xl font-semibold mt-10 mb-4">Built With Purpose</h2>
 
