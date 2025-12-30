@@ -55,7 +55,7 @@ export default function Home() {
 
       <div className="text-3xl mb-3">🪄</div>
 
-      <h3 className="font-semibold mb-2">Generate Magic Code</h3>
+      <h3 className="font-semibold mb-2">Generate Secure Code</h3>
       <p className="text-sm text-slate-600">
         Receive a unique 6-digit magic code. No long URLs — share the code
         privately with your recipient.
