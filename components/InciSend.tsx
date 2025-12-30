@@ -130,7 +130,7 @@ return (
         setFile(e.dataTransfer.files?.[0] || null);
       }}
     >
-      <Upload className="mb-2 text-slate-400" />
+     
       <p className="text-sm text-slate-600">
         Drag & drop a file or click to upload
       </p>
