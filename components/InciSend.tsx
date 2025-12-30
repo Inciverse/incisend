@@ -206,8 +206,12 @@ export default function InciSend({ mode }: { mode: "send" | "receive" }) {
         </div>
       )}
 
-      {message && (
-        <p className="text-center text-sm text-slate-600">{message}</p>
+            {message && (
+        <p className="text-center text-sm text-slate-600">
+          {message}
+        </p>
       )}
     </div>
   );
+}
+
