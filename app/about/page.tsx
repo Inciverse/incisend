@@ -1,98 +1,82 @@
 export default function AboutPage() {
   return (
-    <main className="max-w-4xl mx-auto px-6 py-16">
+    <main className="max-w-4xl mx-auto px-6 py-16 space-y-10">
 
-      <h1 className="text-4xl font-bold mb-6">About Incisend</h1>
+      {/* HERO */}
+      <section>
+        <h1 className="text-4xl font-bold mb-4">About Incisend</h1>
+        <p className="text-lg text-gray-600">
+          Incisend is a privacy-first file sharing web app designed for secure,
+          temporary transfers without accounts, tracking, or public links.
+        </p>
+      </section>
 
-      <p className="text-lg text-gray-600 mb-6">
-        Incisend is a privacy-focused file sharing web app built to make sending
-        sensitive files simple and secure.
-      </p>
+      {/* WHY */}
+      <section>
+        <h2 className="text-2xl font-semibold mb-3">Why Incisend Exists</h2>
+        <p className="text-gray-600 mb-4">
+          Most file sharing tools optimize for convenience, not privacy.
+          Incisend flips that model — privacy first, friction second.
+        </p>
 
-      <p className="text-lg text-gray-600 mb-6">
-        Unlike traditional file sharing tools, Incisend does not use public
-        links, accounts, or email signups. Files are shared using a one-time
-        magic code and a password, ensuring that only the intended recipient
-        can access the file.
-      </p>
-
-      <h2 className="text-2xl font-semibold mt-10 mb-4">
-        Why Incisend Exists
-      </h2>
-
-      <p className="text-lg text-gray-600 mb-6">
-        Most file sharing platforms prioritize convenience over privacy.
-        Incisend was built with the opposite philosophy — privacy first,
-        friction second.
-      </p>
-
-      <ul className="list-disc list-inside text-lg text-gray-600 mb-12">
-        <li>No accounts</li>
-        <li>No public links</li>
-        <li>No tracking</li>
-        <li>No unnecessary data collection</li>
-        <li>Files auto-delete after 1 hour</li>
-      </ul>
+        <ul className="list-disc list-inside text-gray-600 space-y-1">
+          <li>No accounts</li>
+          <li>No public URLs</li>
+          <li>No tracking</li>
+          <li>Client-side encryption</li>
+          <li>Auto-delete after 1 hour</li>
+        </ul>
+      </section>
 
       {/* HOW IT WORKS */}
-      <section className="max-w-6xl w-full mb-16">
-        <h2 className="text-center text-2xl font-semibold mb-12">
+      <section>
+        <h2 className="text-2xl font-semibold mb-6 text-center">
           How It Works
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="card text-center">
-            <div className="mx-auto mb-4 w-10 h-10 rounded-full bg-black text-white flex items-center justify-center">
-              1
-            </div>
-            <div className="text-3xl mb-3">🔐</div>
-            <h3 className="font-semibold mb-2">Secure Upload</h3>
-            <p className="text-sm text-slate-600">
-              Files are encrypted locally in your browser before upload.
+            <div className="text-3xl mb-2">🔐</div>
+            <h3 className="font-semibold mb-1">Secure Upload</h3>
+            <p className="text-sm text-gray-600">
+              Files are encrypted locally before upload.
             </p>
           </div>
 
           <div className="card text-center">
-            <div className="mx-auto mb-4 w-10 h-10 rounded-full bg-black text-white flex items-center justify-center">
-              2
-            </div>
-            <div className="text-3xl mb-3">🪄</div>
-            <h3 className="font-semibold mb-2">Magic Code</h3>
-            <p className="text-sm text-slate-600">
-              Share a short secure code instead of long URLs.
+            <div className="text-3xl mb-2">🪄</div>
+            <h3 className="font-semibold mb-1">Magic Code</h3>
+            <p className="text-sm text-gray-600">
+              Share a short code instead of a public link.
             </p>
           </div>
 
           <div className="card text-center">
-            <div className="mx-auto mb-4 w-10 h-10 rounded-full bg-black text-white flex items-center justify-center">
-              3
-            </div>
-            <div className="text-3xl mb-3">⏱️</div>
-            <h3 className="font-semibold mb-2">Auto Delete</h3>
-            <p className="text-sm text-slate-600">
-              Files are permanently deleted after 60 minutes.
+            <div className="text-3xl mb-2">⏱️</div>
+            <h3 className="font-semibold mb-1">Auto Delete</h3>
+            <p className="text-sm text-gray-600">
+              Files self-destruct after 60 minutes.
             </p>
           </div>
-
         </div>
       </section>
 
       {/* CONTACT */}
-      <h3 id="contact-us" className="text-xl font-semibold mb-2">
-        Contact Us
-      </h3>
-
-      <p className="text-gray-600 mb-16">
-        For support or inquiries, reach out at <b>support@incisend.com</b>
-      </p>
+      <section id="contact-us">
+        <h2 className="text-2xl font-semibold mb-2">Contact Us</h2>
+        <p className="text-gray-600">
+          For support or inquiries, email us at{" "}
+          <b>support@incisend.com</b>
+        </p>
+      </section>
 
       {/* FOOTER */}
-      <footer className="border-t pt-6 text-gray-500 text-sm text-center">
+      <footer className="border-t pt-6 text-center text-sm text-gray-500">
         Built by <span className="font-medium">InciVerse</span> • © 2025
       </footer>
 
     </main>
   );
 }
+
 
