@@ -260,3 +260,5 @@ export default function InciSend({ mode }: { mode: "send" | "receive" }) {
 
   </div>
 );
+}
+
