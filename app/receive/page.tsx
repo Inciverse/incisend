@@ -1,10 +1,10 @@
-import InciSend from "../../components/InciSend";
+import Incisend from "@/components/Incisend";
 
 export default function ReceivePage() {
   return (
     <main style={{ padding: 40 }}>
       <h1>Receive File</h1>
-      <InciSend mode="receive" />
+      <Incisend />
     </main>
   );
 }
