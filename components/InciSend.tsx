@@ -209,79 +209,60 @@ export default function InciSend({ mode }: { mode: "send" | "receive" }) {
       )}
 
       {/* ================= RECEIVE UI ================= */}
-      {mode === "receive" && (
+      return (
   <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4">
     <div className="w-full max-w-md">
 
-      {/* White Card */}
-      <div className="rounded-2xl bg-white p-6 shadow-xl space-y-5">
+      {/* ================= RECEIVE UI ================= */}
+      {mode === "receive" && (
+        <div className="rounded-2xl bg-white p-6 shadow-xl space-y-5">
 
-        {/* Info Box (Consistency with Send Page) */}
-        <div className="flex items-center gap-2 rounded-lg bg-indigo-50 border border-indigo-100 p-4 text-sm text-indigo-700">
-          <Shield size={16} />
-          Ensure you have the correct code. Files expire after 1 hour.
-        </div>
-
-        {/* Header */}
-        <div className="text-center space-y-2">
-          <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-indigo-100">
-            <Lock size={18} className="text-indigo-600" />
+          {/* Info Box */}
+          <div className="flex items-center gap-2 rounded-lg bg-indigo-50 border border-indigo-100 p-4 text-sm text-indigo-700">
+            <Shield size={16} />
+            Ensure you have the correct code. Files expire after 1 hour.
           </div>
 
-          <h2 className="text-2xl font-bold">Receive File</h2>
+          {/* Header */}
+          <div className="text-center space-y-2">
+            <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-indigo-100">
+              <Lock size={18} className="text-indigo-600" />
+            </div>
 
-          <p className="text-sm text-slate-500">
-            Enter your unique magic code to decrypt and download the file.
-          </p>
-        </div>
+            <h2 className="text-2xl font-bold">Receive File</h2>
 
-        {/* Magic Code */}
-        <input
-          placeholder="Enter secure magic code"
-          value={inputCode}
-          onChange={(e) => setInputCode(e.target.value.toUpperCase())}
-          className="w-full rounded-lg border px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        />
+            <p className="text-sm text-slate-500">
+              Enter your secure code to decrypt and download the file.
+            </p>
+          </div>
 
-        {/* Password */}
-        <div className="relative">
+          {/* Magic Code */}
           <input
-            type={showPassword ? "text" : "password"}
-            placeholder="Password (only if sender set one)"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded-lg border px-4 py-3 pr-10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            value={inputCode}
+            onChange={(e) => setInputCode(e.target.value.toUpperCase())}
+            placeholder="Enter secure magic code"
+            className="w-full rounded-lg border px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
 
+          {/* Password */}
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password (only if sender set one)"
+              className="w-full rounded-lg border px-4 py-3 pr-10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500"
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
+
+          {/* Action */}
           <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500"
-          >
-            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-          </button>
-        </div>
-
-        {/* Action */}
-        <button
-          onClick={handleReceive}
-          className="w-full rounded-lg bg-indigo-600 py-2.5 font-medium text-white hover:bg-indigo-700 transition"
-        >
-          Decrypt & Download
-        </button>
-
-        {/* Trust Micro-copy */}
-        <p className="text-center text-xs text-slate-500">
-          Files are decrypted locally in your browser.
-        </p>
-      </div>
-
-      {/* Status Message */}
-      {message && (
-        <p className="mt-4 text-center text-sm text-slate-600">
-          {message}
-        </p>
-      )}
-    </div>
-  </div>
-)}
+            onClick={han
