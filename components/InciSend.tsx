@@ -30,7 +30,12 @@ export default function InciSend({ mode }: { mode: "send" | "receive" }) {
       setMessage("❌ Select a file and set a password.");
       return;
     }
-
+  
+    if (file.size > MAX_FILE_SIZE) {
+      setMessage("File exceeds 50MB limit.");
+      return;
+    }
+    
     setLoading(true);
     setMessage("");
 
@@ -93,121 +98,83 @@ export default function InciSend({ mode }: { mode: "send" | "receive" }) {
   };
 
   // ================= UI =================
-  return (
-    <div className="space-y-6">
-      {/* ================= SEND UI ================= */}
-      {mode === "send" && (
-        <div className="space-y-5">
-          {/* Security Info */}
-          <div className="flex items-center gap-2 rounded-lg border border-indigo-100 bg-indigo-50 p-4 text-sm text-indigo-800">
-            <Shield size={16} />
-            Files are encrypted locally. We never store passwords.
-          </div>
+ return (
+  <div className="space-y-6">
 
-          {/* Drag & Drop */}
-          <div
-            className={`cursor-pointer rounded-xl border-2 border-dashed p-6 text-center transition
-              ${
-                file
-                  ? "border-emerald-500 bg-emerald-50"
-                  : "border-slate-300 hover:border-indigo-400 hover:bg-indigo-50"
-              }`}
-            onClick={() => document.getElementById("fileInput")?.click()}
-          >
-            {file ? (
-              <div className="flex flex-col items-center gap-2">
-                <CheckCircle className="h-8 w-8 text-emerald-600" />
-                <p className="text-sm font-semibold text-emerald-700">
-                  {file.name}
-                </p>
-                <p className="text-xs text-emerald-600">
-                  {(file.size / 1024 / 1024).toFixed(2)} MB selected
-                </p>
-              </div>
-            ) : (
-              <>
-                <UploadCloud className="mx-auto h-8 w-8 text-indigo-600" />
-                <p className="mt-2 text-sm font-medium">
-                  Drag & drop your file here
-                </p>
-                <p className="text-xs text-slate-500">
-                  or click to browse (Max 50MB)
-                </p>
-              </>
-            )}
+    {/* ================= SEND UI ================= */}
+    {mode === "send" && (
+      <div className="space-y-5">
 
-            <input
-              id="fileInput"
-              type="file"
-              className="hidden"
-              onChange={(e) => {
-                const selectedFile = e.target.files?.[0];
-                if (!selectedFile) return;
+        {/* Security Info */}
+        <div className="flex items-center gap-2 rounded-lg border border-indigo-100 bg-indigo-50 p-4 text-sm text-indigo-800">
+          <Shield size={16} />
+          Files are encrypted locally. We never store passwords.
+        </div>
 
-                if (selectedFile.size > MAX_FILE_SIZE) {
-                  setMessage("❌ Max file size is 50MB");
-                  return;
-                }
-
-                setFile(selectedFile);
-              }}
-            />
-          </div>
-
-          {/* Password */}
-          <div className="relative">
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Set password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-lg border px-4 py-3 pr-10"
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500"
-            >
-              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-            </button>
-          </div>
-
-          {/* Meta Info */}
+        {/* Drag & Drop */}
+        <div
+          className="cursor-pointer rounded-xl border-2 border-dashed border-slate-300 p-6 text-center transition hover:border-indigo-400 hover:bg-indigo-50"
+          onClick={() => document.getElementById("fileInput")?.click()}
+        >
+          <UploadCloud className="mx-auto h-8 w-8 text-indigo-600" />
+          <p className="mt-2 text-sm font-medium">Drag & drop your file here</p>
           <p className="text-xs text-slate-500">
-            Max file size: 50MB · Files auto-delete after 1 hour
+            or click to browse (Max 50MB)
           </p>
 
-          {/* Action */}
-          <button
-            onClick={handleSend}
-            disabled={loading}
-            className={`w-full rounded-lg py-2 font-medium text-white transition
-              ${
-                loading
-                  ? "bg-slate-400 cursor-not-allowed"
-                  : "bg-indigo-600 hover:bg-indigo-700"
-              }`}
-          >
-            {loading ? "Uploading..." : "Generate Secure Code"}
-          </button>
-
-          {/* Code Output */}
-          {code && (
-            <div className="mt-6 rounded-xl bg-indigo-700 p-5 text-center shadow-xl">
-              <p className="text-xs uppercase tracking-widest text-white/80">
-                Your Magic Code
-              </p>
-              <p className="mt-2 text-4xl font-mono font-extrabold tracking-widest text-white">
-                {code}
-              </p>
-              <p className="mt-3 text-xs text-white/90">
-                Share this code + password securely
-              </p>
-            </div>
-          )}
+          <input
+            id="fileInput"
+            type="file"
+            className="hidden"
+            onChange={(e) => {
+              const selectedFile = e.target.files?.[0];
+              if (!selectedFile) return;
+              if (selectedFile.size > MAX_FILE_SIZE) {
+                setMessage("Max file size is 50MB");
+                return;
+              }
+              setFile(selectedFile);
+            }}
+          />
         </div>
-      )}
 
+        {/* Password */}
+        <div className="relative">
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Set password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full rounded-lg border px-4 py-3 pr-10"
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500"
+          >
+            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+          </button>
+        </div>
+
+        <button
+          onClick={handleSend}
+          className="w-full rounded-lg bg-indigo-600 py-2 font-medium text-white hover:bg-indigo-700 transition"
+        >
+          Generate Secure Code
+        </button>
+
+        {code && (
+          <div className="rounded-xl bg-indigo-600 p-5 text-center text-white">
+            <p className="text-xs uppercase tracking-widest opacity-80">
+              Your Secure Code
+            </p>
+            <p className="mt-2 text-3xl font-mono font-extrabold tracking-widest">
+              {code}
+            </p>
+          </div>
+        )}
+      </div>
+    )}
       {/* ================= RECEIVE UI ================= */}
       return (
   <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4">
