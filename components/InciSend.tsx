@@ -197,8 +197,12 @@ export default function InciSend({ mode }: { mode: "send" | "receive" }) {
       )}
 
 
+        return (
+        <div className="space-y-6">
+
             {/* ================= RECEIVE UI ================= */}
-    {mode === "receive" && (
+
+              {mode === "receive" && (
       <div className="space-y-5">
         <div className="rounded-lg border border-indigo-100 bg-indigo-50 p-4 text-sm text-indigo-700">
           Ensure you have the correct code. Files expire after 1 hour.
@@ -237,7 +241,7 @@ export default function InciSend({ mode }: { mode: "send" | "receive" }) {
 
         <button
           onClick={handleReceive}
-          className="w-full rounded-lg bg-indigo-600 py-2 font-medium text-white hover:bg-indigo-700 transition"
+          className="w-full rounded-lg bg-indigo-600 py-2 font-medium text-white transition hover:bg-indigo-700"
         >
           Decrypt & Download
         </button>
@@ -248,12 +252,11 @@ export default function InciSend({ mode }: { mode: "send" | "receive" }) {
       </div>
     )}
 
-    {/* ================= MESSAGE ================= */}
-     {message && (
-        <p className="mt-4 text-center text-sm text-slate-500">
-          {message}
-        </p>
-      )}
-    </div>
-  );
-}
+    {message && (
+      <p className="mt-4 text-center text-sm text-slate-500">
+        {message}
+      </p>
+    )}
+
+  </div>
+);
