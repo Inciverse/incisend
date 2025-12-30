@@ -1,4 +1,4 @@
-import Incisend from "../../components/Incisend";
+import Incisend from "../../components/InciSend";
 
 export default function ReceivePage() {
   return (
