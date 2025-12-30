@@ -53,7 +53,7 @@ export default function RootLayout({
               <a href="/terms" className="hover:text-black">
                 Terms of Service
               </a>
-              <a href="/support" className="hover:text-black">
+              <a href="/about#contact-us" className="hover:text-black">
                 Support
               </a>
             </div>
