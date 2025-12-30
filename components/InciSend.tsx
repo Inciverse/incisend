@@ -249,8 +249,11 @@ export default function InciSend({ mode }: { mode: "send" | "receive" }) {
     )}
 
     {/* ================= MESSAGE ================= */}
-    {message && (
-      <p className="mt-4 text-center text-sm text-slate-500">
-        {message}
-      </p>
-    )}
+     {message && (
+        <p className="mt-4 text-center text-sm text-slate-500">
+          {message}
+        </p>
+      )}
+    </div>
+  );
+}
