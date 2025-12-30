@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 
-export default function InciSend({ mode }) {
+export default function InciSend {
   const [mode, setMode] = useState<"send" | "receive">("send");
 
   // RECEIVE STATES
