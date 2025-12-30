@@ -85,47 +85,22 @@ export default function AboutPage() {
   </div>
 </section>
 
-     <h3 id="contact-us" className="text-xl font-semibold">
-  Contact Us
-</h3>
-
-
-  <p className="mt-2 text-slate-600">
-    Have questions or feedback? Reach out directly.
-  </p>
-
-  <div className="mt-4 space-y-2 text-sm">
-    <p>
-      📧 Email:{" "}
-      <a
-        href="mailto:support@incisend.com"
-        className="text-indigo-600 hover:underline"
-      >
-        support@incisend.com
-      </a>
-    </p>
-
-    <p>
-      🌐 Website:{" "}
-      <a
-        href="https://incisend-og.vercel.app"
-        className="text-indigo-600 hover:underline"
-        target="_blank"
-      >
-        incisend-og.vercel.app
-      </a>
-    </p>
-  </div>
-</div>
-
-
-
-      <h2 className="text-2xl font-semibold mt-10 mb-4">Built With Purpose</h2>
-
-      <p className="text-lg text-gray-600 mb-10">
-        Incisend is designed to be minimal, fast, and scalable, focusing on
-        doing one thing extremely well — secure file sharing without exposure.
+      <p className="text-lg text-gray-500 mb-10">
+        Incisend is designed to be minimal, fast, and scalable, focusing on privacy-first file sharing.
       </p>
+
+      {/* Contact Us */}
+      <h3 id="contact-us" className="text-xl font-semibold mb-2">
+        Contact Us
+      </h3>
+
+      <p className="text-gray-600">
+        For support or inquiries, reach out at <b>support@incisend.com</b>
+      </p>
+
+    </div>
+  );
+}
 
       <footer className="border-t pt-6 text-gray-500 text-sm">
         Built by <span className="font-medium">InciVerse</span> • © 2025
