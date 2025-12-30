@@ -250,7 +250,6 @@ export default function InciSend({ mode }: { mode: "send" | "receive" }) {
               Files are decrypted locally in your browser.
             </p>
           </div>
-        )}
 
         {message && (
           <p className="mt-4 text-center text-sm text-slate-600">
