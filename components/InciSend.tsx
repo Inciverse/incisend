@@ -7,10 +7,9 @@ import {
   UploadCloud,
   Shield,
   CheckCircle,
-  Lock,
 } from "lucide-react";
 
-const MAX_FILE_SIZE = 50 * 1024 * 1024;
+const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 
 function generateCode() {
   return Math.random().toString(36).substring(2, 8).toUpperCase();
@@ -48,6 +47,7 @@ export default function InciSend({ mode }: { mode: "send" | "receive" }) {
     });
 
     const json = await res.json();
+
     setLoading(false);
 
     if (!json.success) {
@@ -56,7 +56,7 @@ export default function InciSend({ mode }: { mode: "send" | "receive" }) {
     }
 
     setCode(generatedCode);
-    setMessage("✅ File uploaded successfully.");
+    setMessage("✅ File uploaded successfully. Share the code & password.");
   };
 
   // ================= RECEIVE =================
@@ -95,39 +95,70 @@ export default function InciSend({ mode }: { mode: "send" | "receive" }) {
   // ================= UI =================
   return (
     <div className="space-y-6">
-      {/* ================= RECEIVE UI ================= */}
-      {mode === "receive" && (
-        <div className="mx-auto max-w-md rounded-2xl bg-white p-6 shadow-lg space-y-5">
-          {/* Info Box */}
+      {/* ================= SEND UI ================= */}
+      {mode === "send" && (
+        <div className="space-y-5">
+          {/* Security Info */}
           <div className="flex items-center gap-2 rounded-lg border border-indigo-100 bg-indigo-50 p-4 text-sm text-indigo-800">
             <Shield size={16} />
-            Ensure you have the correct code. Files expire after 1 hour.
+            Files are encrypted locally. We never store passwords.
           </div>
 
-          {/* Header */}
-          <div className="text-center space-y-1">
-            <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-indigo-100">
-              <Lock className="text-indigo-600" size={20} />
-            </div>
-            <h2 className="text-2xl font-bold">Receive File</h2>
-            <p className="text-sm text-slate-500">
-              Enter your unique magic code to decrypt and download the file.
-            </p>
-          </div>
+          {/* Drag & Drop */}
+          <div
+            className={`cursor-pointer rounded-xl border-2 border-dashed p-6 text-center transition
+              ${
+                file
+                  ? "border-emerald-500 bg-emerald-50"
+                  : "border-slate-300 hover:border-indigo-400 hover:bg-indigo-50"
+              }`}
+            onClick={() => document.getElementById("fileInput")?.click()}
+          >
+            {file ? (
+              <div className="flex flex-col items-center gap-2">
+                <CheckCircle className="h-8 w-8 text-emerald-600" />
+                <p className="text-sm font-semibold text-emerald-700">
+                  {file.name}
+                </p>
+                <p className="text-xs text-emerald-600">
+                  {(file.size / 1024 / 1024).toFixed(2)} MB selected
+                </p>
+              </div>
+            ) : (
+              <>
+                <UploadCloud className="mx-auto h-8 w-8 text-indigo-600" />
+                <p className="mt-2 text-sm font-medium">
+                  Drag & drop your file here
+                </p>
+                <p className="text-xs text-slate-500">
+                  or click to browse (Max 50MB)
+                </p>
+              </>
+            )}
 
-          {/* Magic Code */}
-          <input
-            placeholder="Enter secure magic code"
-            value={inputCode}
-            onChange={(e) => setInputCode(e.target.value.toUpperCase())}
-            className="w-full rounded-lg border px-4 py-3"
-          />
+            <input
+              id="fileInput"
+              type="file"
+              className="hidden"
+              onChange={(e) => {
+                const selectedFile = e.target.files?.[0];
+                if (!selectedFile) return;
+
+                if (selectedFile.size > MAX_FILE_SIZE) {
+                  setMessage("❌ Max file size is 50MB");
+                  return;
+                }
+
+                setFile(selectedFile);
+              }}
+            />
+          </div>
 
           {/* Password */}
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
-              placeholder="Password (only if sender set one)"
+              placeholder="Set password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full rounded-lg border px-4 py-3 pr-10"
@@ -141,18 +172,58 @@ export default function InciSend({ mode }: { mode: "send" | "receive" }) {
             </button>
           </div>
 
+          {/* Meta Info */}
+          <p className="text-xs text-slate-500">
+            Max file size: 50MB · Files auto-delete after 1 hour
+          </p>
+
           {/* Action */}
           <button
+            onClick={handleSend}
+            disabled={loading}
+            className={`w-full rounded-lg py-2 font-medium text-white transition
+              ${
+                loading
+                  ? "bg-slate-400 cursor-not-allowed"
+                  : "bg-indigo-600 hover:bg-indigo-700"
+              }`}
+          >
+            {loading ? "Uploading..." : "Generate Secure Code"}
+          </button>
+
+          {/* Code Output */}
+          {code && (
+            <div className="mt-6 rounded-xl bg-indigo-700 p-5 text-center shadow-xl">
+              <p className="text-xs uppercase tracking-widest text-white/80">
+                Your Magic Code
+              </p>
+              <p className="mt-2 text-4xl font-mono font-extrabold tracking-widest text-white">
+                {code}
+              </p>
+              <p className="mt-3 text-xs text-white/90">
+                Share this code + password securely
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ================= RECEIVE UI ================= */}
+      {mode === "receive" && (
+        <div className="space-y-5">
+          <input
+            placeholder="Enter secure magic code"
+            value={inputCode}
+            onChange={(e) => setInputCode(e.target.value.toUpperCase())}
+            className="w-full rounded-lg border px-4 py-2"
+          />
+
+          <button
             onClick={handleReceive}
-            className="w-full rounded-lg bg-indigo-600 py-3 font-medium text-white hover:bg-indigo-700 transition"
+            className="w-full rounded-lg bg-indigo-600 py-2 font-medium text-white hover:bg-indigo-700 transition"
           >
             Decrypt & Download
           </button>
-
-          {/* Footer Trust */}
-          <p className="text-center text-xs text-slate-500">
-            Files are decrypted locally in your browser.
-          </p>
         </div>
       )}
 
@@ -164,8 +235,3 @@ export default function InciSend({ mode }: { mode: "send" | "receive" }) {
     </div>
   );
 }
-
-
-
-
-
