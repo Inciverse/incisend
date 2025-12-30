@@ -1,22 +1,29 @@
 export default function PrivacyPolicy() {
   return (
-    <main className="max-w-3xl mx-auto py-20 px-4">
-      <h1 className="text-2xl font-semibold mb-6">Privacy Policy</h1>
+    <main className="flex justify-center px-4 py-20">
+      <div className="w-full max-w-[800px] space-y-8">
 
-      <p className="mb-4">
-        Incisend is designed for temporary file sharing. Files are encrypted and
-        automatically deleted after expiry.
-      </p>
+        <h1 className="text-3xl font-bold text-center">
+          Privacy Policy
+        </h1>
 
-      <p className="mb-4">
-        We do not access, view, or sell the contents of shared files. Minimal
-        metadata may be temporarily stored for operational purposes.
-      </p>
+        <p className="text-slate-600 leading-relaxed">
+          Incisend is designed for temporary file sharing. Files are encrypted
+          and automatically deleted after expiry.
+        </p>
 
-      <p className="mb-4">
-        By using Incisend, you agree to this privacy approach.
-      </p>
+        <p className="text-slate-600 leading-relaxed">
+          We do not access, view, or sell the contents of shared files.
+          Minimal metadata may be temporarily stored for operational purposes.
+        </p>
+
+        <p className="text-slate-600 leading-relaxed">
+          By using Incisend, you agree to this privacy approach.
+        </p>
+
+      </div>
     </main>
   );
 }
+
 
