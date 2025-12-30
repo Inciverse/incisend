@@ -83,6 +83,7 @@ export default function InciSend({ mode }: { mode: "send" | "receive" }) {
   };
 
   // ================= UI =================
+    // ================= UI =================
   return (
     <div className="space-y-6">
       {mode === "send" && (
@@ -153,62 +154,60 @@ export default function InciSend({ mode }: { mode: "send" | "receive" }) {
         </>
       )}
 
-{mode === "receive" && (
-  <div className="space-y-6">
-    {/* Info Box */}
-    <div className="rounded-lg border border-indigo-100 bg-indigo-50 p-4">
-      <p className="text-sm text-indigo-700">
-        🔐 Ensure you have the correct magic code. Files expire automatically after 1 hour.
-      </p>
+      {mode === "receive" && (
+        <div className="space-y-6">
+          <div className="rounded-lg border border-indigo-100 bg-indigo-50 p-4">
+            <p className="text-sm text-indigo-700">
+              🔐 Ensure you have the correct magic code. Files expire automatically after 1 hour.
+            </p>
+          </div>
+
+          <div className="text-center">
+            <h2 className="text-2xl font-bold">Receive File</h2>
+            <p className="mt-1 text-sm text-slate-500">
+              Enter your unique magic code to decrypt and download the file.
+            </p>
+          </div>
+
+          <input
+            placeholder="Enter secure magic code"
+            value={inputCode}
+            onChange={(e) => setInputCode(e.target.value.toUpperCase())}
+            className="w-full rounded-lg border px-4 py-2"
+          />
+
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password (only if sender set one)"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full rounded-lg border px-4 py-2 pr-10"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500"
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
+
+          <button
+            onClick={handleReceive}
+            className="w-full rounded-lg bg-indigo-600 py-2 font-medium text-white hover:bg-indigo-700 transition"
+          >
+            Decrypt & Download
+          </button>
+
+          <p className="text-center text-xs text-slate-500">
+            Files are decrypted locally in your browser.
+          </p>
+        </div>
+      )}
+
+      {message && (
+        <p className="text-center text-sm text-slate-600">{message}</p>
+      )}
     </div>
-
-    {/* Title */}
-    <div className="text-center">
-      <h2 className="text-2xl font-bold">Receive File</h2>
-      <p className="mt-1 text-sm text-slate-500">
-        Enter your unique magic code to decrypt and download the file.
-      </p>
-    </div>
-
-    {/* Code Input */}
-    <input
-      placeholder="Enter secure magic code"
-      value={inputCode}
-      onChange={(e) => setInputCode(e.target.value.toUpperCase())}
-      className="w-full rounded-lg border px-4 py-2"
-    />
-
-    {/* Password */}
-    <div className="relative">
-      <input
-        type={showPassword ? "text" : "password"}
-        placeholder="Password (only if sender set one)"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        className="w-full rounded-lg border px-4 py-2 pr-10"
-      />
-      <button
-        type="button"
-        onClick={() => setShowPassword(!showPassword)}
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500"
-      >
-        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-      </button>
-    </div>
-
-    {/* Action */}
-    <button
-      onClick={handleReceive}
-      className="w-full rounded-lg bg-indigo-600 py-2 font-medium text-white hover:bg-indigo-700 transition"
-    >
-      Decrypt & Download
-    </button>
-
-    {/* Trust Line */}
-    <p className="text-center text-xs text-slate-500">
-      Files are decrypted locally in your browser.
-    </p>
-  </div>
-)}
-
-
+  );
