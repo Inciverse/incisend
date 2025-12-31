@@ -1,11 +1,10 @@
-import Incisend from "../../components/InciSend";
+import InciSend from "../../components/Incisend";
 
 export default function ReceivePage() {
   return (
-    <main style={{ padding: 40 }}>
-      <h1>Receive File</h1>
-      <Incisend mode="send" />
-
+    <main className="min-h-screen bg-[#F8FAFC] py-12">
+      {/* Explicitly telling the component to start in 'receive' mode */}
+      <InciSend initialMode="receive" />
     </main>
   );
 }
