@@ -22,7 +22,8 @@ export default function SendPage() {
             </p>
           </div>
 
-          <InciSend />
+          <InciSend mode="send" />
+
         </div>
       </div>
     </div>
