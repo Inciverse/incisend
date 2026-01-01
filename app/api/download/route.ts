@@ -45,8 +45,8 @@ export async function POST(req: Request) {
 
     return new Response(buffer, {
       headers: {
-        "Content-Type": row.mime_type,
-        "Content-Disposition": `attachment; filename="${row.original_name}"`,
+        "Content-Type": data.mime_type,
+        "Content-Disposition": `attachment; filename="${data.original_name}"`,
       },
     });
   } catch {
