@@ -11,8 +11,20 @@ function generateCode() {
 export default function InciSend() {
   const [file, setFile] = useState<File | null>(null);
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [code, setCode] = useState("");
   const [message, setMessage] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [dragActive, setDragActive] = useState(false);
+
+  const handleFile = (f: File) => {
+    if (f.size > MAX_FILE_SIZE) {
+      setMessage("Max file size is 50MB");
+      return;
+    }
+    setFile(f);
+    setMessage("");
+  };
 
   const handleSend = async () => {
     if (!file || !password) {
@@ -20,10 +32,8 @@ export default function InciSend() {
       return;
     }
 
-    if (file.size > MAX_FILE_SIZE) {
-      setMessage("File is larger than 50MB");
-      return;
-    }
+    setUploading(true);
+    setMessage("");
 
     const generatedCode = generateCode();
 
@@ -38,6 +48,7 @@ export default function InciSend() {
     });
 
     const json = await res.json();
+    setUploading(false);
 
     if (!json.success) {
       setMessage(json.error || "Upload failed");
@@ -45,62 +56,124 @@ export default function InciSend() {
     }
 
     setCode(generatedCode);
-    setMessage("File uploaded. Share the code & password.");
+    setMessage("File uploaded successfully");
   };
 
   return (
-    <div style={{ maxWidth: 400, margin: "auto" }}>
-      <input
-        type="file"
-        onChange={(e) => {
-          const selectedFile = e.target.files?.[0] || null;
-          if (!selectedFile) return;
+    <div className="mx-auto max-w-lg">
+      {/* HEADER */}
+      <div className="text-center mb-6">
+        <h1 className="text-2xl font-bold">Send a File Securely</h1>
+        <p className="text-sm text-slate-500">
+          Your file is encrypted locally. We never store passwords.
+        </p>
+      </div>
 
-          if (selectedFile.size > MAX_FILE_SIZE) {
-            alert("Max file size is 50MB");
-            e.target.value = "";
-            setFile(null);
-            return;
-          }
-
-          setFile(selectedFile);
-        }}
-      />
-
-      <input
-        type="password"
-        placeholder="Set password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-
-      <br />
-      <br />
-
-      <button
-        onClick={handleSend}
-        className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 rounded-lg transition"
-      >
-        Generate Magic Code
-      </button>
-
-      {code && (
-        <div className="mt-8 rounded-2xl bg-indigo-600 px-6 py-5 text-center shadow-xl">
-          <p className="text-xs uppercase tracking-widest text-indigo-200">
-            Your Magic Code
-          </p>
-
-          <div className="mt-2 text-4xl font-mono font-extrabold tracking-widest text-white">
-            {code}
-          </div>
-
-          <p className="mt-3 text-xs text-indigo-200">
-            Share this code + password to download
-          </p>
+      {/* CARD */}
+      <div className="rounded-2xl border bg-white p-6 shadow-sm">
+        {/* SECURITY INFO */}
+        <div className="mb-4 rounded-lg bg-indigo-50 p-3 text-sm text-indigo-700 flex gap-2">
+          <span>🛡️</span>
+          <span>AES-256 encryption · Auto-deletes after 1 hour</span>
         </div>
-      )}
 
-      {message && <p>{message}</p>}
+        {/* DROP ZONE */}
+        <div
+          onDragOver={(e) => {
+            e.preventDefault();
+            setDragActive(true);
+          }}
+          onDragLeave={() => setDragActive(false)}
+          onDrop={(e) => {
+            e.preventDefault();
+            setDragActive(false);
+            const droppedFile = e.dataTransfer.files?.[0];
+            if (droppedFile) handleFile(droppedFile);
+          }}
+          className={`mb-4 cursor-pointer rounded-xl border-2 border-dashed p-6 text-center text-sm transition ${
+            dragActive ? "border-indigo-500 bg-indigo-50" : "border-slate-300"
+          }`}
+        >
+          <input
+            type="file"
+            className="hidden"
+            id="fileInput"
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              if (f) handleFile(f);
+            }}
+          />
+
+          <label htmlFor="fileInput" className="cursor-pointer">
+            {file ? (
+              <span className="font-medium text-slate-700">
+                Selected: {file.name}
+              </span>
+            ) : (
+              <span>Drag & drop file here or click to choose</span>
+            )}
+          </label>
+
+          <div className="mt-2 text-xs text-slate-400">
+            Max file size: 50MB
+          </div>
+        </div>
+
+        {/* PASSWORD */}
+        <div className="relative mb-4">
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Set password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full rounded-lg border px-4 py-2 pr-10"
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-2.5 text-sm text-slate-500"
+          >
+            {showPassword ? "Hide" : "Show"}
+          </button>
+        </div>
+
+        {/* ACTION */}
+        <button
+          onClick={handleSend}
+          disabled={uploading}
+          className="w-full rounded-lg bg-indigo-600 py-2 font-medium text-white hover:bg-indigo-700 transition disabled:opacity-60"
+        >
+          {uploading ? "Uploading..." : "Generate Secure Code"}
+        </button>
+
+        {/* PROGRESS */}
+        {uploading && (
+          <div className="mt-3 h-2 w-full overflow-hidden rounded bg-slate-200">
+            <div className="h-full w-2/3 animate-pulse bg-indigo-600" />
+          </div>
+        )}
+
+        {/* RESULT */}
+        {code && (
+          <div className="mt-6 rounded-xl bg-indigo-600 px-6 py-5 text-center text-white">
+            <p className="text-xs uppercase tracking-widest text-indigo-200">
+              Secure Code
+            </p>
+            <div className="mt-2 text-4xl font-mono font-bold tracking-widest">
+              {code}
+            </div>
+            <p className="mt-2 text-xs text-indigo-200">
+              Share this code + password
+            </p>
+          </div>
+        )}
+
+        {message && (
+          <p className="mt-4 text-center text-sm text-slate-600">
+            {message}
+          </p>
+        )}
+      </div>
     </div>
   );
 }
