@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
+
 import { Eye, EyeOff, Download, Shield } from "lucide-react";
 
 export default function ReceiveBox() {
