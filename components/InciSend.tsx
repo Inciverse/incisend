@@ -155,29 +155,33 @@ export default function InciSend() {
 
         {/* RESULT */}
         {code && (
-          <div className="mt-6 rounded-xl bg-indigo-600 px-6 py-5 text-center text-white">
-            <p className="text-xs uppercase tracking-widest text-indigo-200">
-              Secure Code
-            </p>
-            <div className="mt-2 text-4xl font-mono font-bold tracking-widest">
-              {code}
-            </div>
-            <button
-  onClick={() => navigator.clipboard.writeText(code)}
-  className="mt-3 text-xs underline opacity-80 hover:opacity-100"
->
-  Copy Code
-</button>
+  <>
+    <div className="mt-6 rounded-xl bg-indigo-600 px-6 py-5 text-center text-white">
+      <p className="text-xs uppercase tracking-widest text-indigo-200">
+        Secure Code
+      </p>
 
-            <p className="mt-2 text-xs text-indigo-200">
-              Share this code + password
-            </p>
-          </div>
-      <p className="mt-2 text-xs text-slate-400 text-center">
-  File will be permanently deleted after 1 hour
-</p>
+      <div className="mt-2 text-4xl font-mono font-bold tracking-widest">
+        {code}
+      </div>
 
-        )}
+      <button
+        onClick={() => navigator.clipboard.writeText(code)}
+        className="mt-3 text-xs underline opacity-80 hover:opacity-100"
+      >
+        Copy Code
+      </button>
+
+      <p className="mt-2 text-xs text-indigo-200">
+        Share this code + password
+      </p>
+    </div>
+
+    <p className="mt-2 text-xs text-slate-400 text-center">
+      File will be permanently deleted after 1 hour
+    </p>
+  </>
+)}
 
         {message && (
           <p className="mt-4 text-center text-sm text-slate-600">
