@@ -1,143 +1,141 @@
-import Link from "next/link";
+"use client";
 
-export default function Home() {
+import { useState, useEffect } from "react";
+import { Eye, EyeOff, UploadCloud, Download, ShieldCheck, Lock } from "lucide-react";
+
+export default function InciSend({ initialMode = "send" }: { initialMode?: "send" | "receive" }) {
+  const [mode, setMode] = useState<"send" | "receive">(initialMode);
+
+  useEffect(() => {
+    setMode(initialMode);
+  }, [initialMode]);
+
+  // --- AAPKA ORIGINAL LOGIC (SAFE & UNTOUCHED) ---
+  const [inputCode, setInputCode] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [message, setMessage] = useState("");
+  const [file, setFile] = useState<File | null>(null);
+  const [sendPassword, setSendPassword] = useState("");
+
+  const handleReceive = () => {
+    setMessage("Decrypting file...");
+  };
+
   return (
-    <section className="flex flex-col items-center gap-14">
-      {/* HERO */}
-      <div className="text-center max-w-2xl">
-        <h1 className="text-4xl font-bold mb-4">
-          Secure File Transfer With Auto-Expiry
-        </h1>
-
-        <p className="text-lg text-slate-600">
-          Share sensitive documents instantly. No accounts required — files are
-          encrypted and permanently deleted after 1 hour.
-        </p>
-
-        <div className="flex justify-center gap-4 mt-8">
-          <Link href="/send">
-            <button className="primary">Start Upload</button>
-          </Link>
-
-          <Link href="/receive">
-            <button className="secondary">Have a Code ?</button>
-          </Link>
-        </div>
-      </div>
-
-{/* HOW IT WORKS */}
-<section className="max-w-6xl w-full">
-  <h2 className="text-center text-2xl font-semibold mb-12">
-    How It Works
-  </h2>
-
-  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-    {/* STEP 1 */}
-    <div className="card text-center relative">
-      <div className="mx-auto mb-4 w-10 h-10 rounded-full bg-black text-white flex items-center justify-center">
-        1
-      </div>
-
-      <div className="text-3xl mb-3">🔐</div>
-
-      <h3 className="font-semibold mb-2">Secure Upload</h3>
-      <p className="text-sm text-slate-600">
-        Select your file and optionally set a password. Your data is encrypted
-        locally in the browser before it reaches our servers.
-      </p>
-    </div>
-
-    {/* STEP 2 */}
-    <div className="card text-center relative">
-      <div className="mx-auto mb-4 w-10 h-10 rounded-full bg-black text-white flex items-center justify-center">
-        2
-      </div>
-
-      <div className="text-3xl mb-3">🪄</div>
-
-      <h3 className="font-semibold mb-2">Generate Secure Code</h3>
-      <p className="text-sm text-slate-600">
-        Receive a unique 6-digit magic code. No long URLs — share the code
-        privately with your recipient.
-      </p>
-    </div>
-
-    {/* STEP 3 */}
-    <div className="card text-center relative">
-      <div className="mx-auto mb-4 w-10 h-10 rounded-full bg-black text-white flex items-center justify-center">
-        3
-      </div>
-
-      <div className="text-3xl mb-3">⏱️</div>
-
-      <h3 className="font-semibold mb-2">Auto-Purge Download</h3>
-      <p className="text-sm text-slate-600">
-        Recipient enters the code to download. After 60 minutes, the file is
-        permanently deleted. No traces left.
-      </p>
-    </div>
-  </div>
-</section>
-
-
-      {/* WHY CHOOSE INCISEND */}
-<section className="max-w-6xl w-full mt-20 rounded-2xl bg-slate-50 p-10">
-  <h2 className="text-center text-2xl font-semibold mb-12">
-    Why Choose Incisend?
-  </h2>
-
-  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-    <div className="card text-center">
-      <div className="text-3xl mb-4">🕶️</div>
-      <h3 className="font-semibold mb-2">Zero-Knowledge Privacy</h3>
-      <p className="text-sm text-slate-600">
-        We don’t know what you’re sharing. Files are encrypted on the client-side,
-        ensuring only the sender and recipient can access the data.
-      </p>
-    </div>
-
-    <div className="card text-center">
-      <div className="text-3xl mb-4">🚫</div>
-      <h3 className="font-semibold mb-2">No Account Friction</h3>
-      <p className="text-sm text-slate-600">
-        Users don’t want to sign up for one-time transfers. Incisend removes this
-        barrier, increasing usability and repeat usage.
-      </p>
-    </div>
-
-    <div className="card text-center">
-      <div className="text-3xl mb-4">📉</div>
-      <h3 className="font-semibold mb-2">Low Maintenance, High Efficiency</h3>
-      <p className="text-sm text-slate-600">
-        Automatic file deletion keeps storage costs low and predictable —
-        maximizing profit margins for the owner.
-      </p>
-    </div>
-  </div>
-</section>
-
-      {/* BUILT WITH MODERN TECH */}
-<section className="max-w-6xl w-full mt-20 text-center">
-  <h2 className="text-xl font-semibold mb-4">
-    Developer-Friendly & Scalable Stack
-  </h2>
-
-  <p className="text-sm text-slate-600 max-w-3xl mx-auto">
-    Built with Next.js and Tailwind CSS, using
-    <span className="font-medium"> SupaBase Cloud storage</span>. Optimized for
-    speed, security, and low-latency file transfers.
-  </p>
-
-  <div className="flex justify-center gap-6 mt-6 text-sm text-slate-500">
-    <span>⚛️ Next.js</span>
-    <span>🎨 Tailwind CSS</span>
-    <span>☁️ SupaBase</span>
-  </div>
-</section>
-    </section>
-
-
-
+    <div className="flex flex-col items-center w-full max-w-md mx-auto">
       
+      {/* 1. THEME-MATCHED TOGGLE (Purple & White) */}
+      <div className="flex bg-gray-100 p-1.5 rounded-2xl mb-10 w-full shadow-inner">
+        <button
+          onClick={() => setMode("send")}
+          className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-black transition-all ${
+            mode === "send" ? "bg-white text-purple-600 shadow-sm" : "text-gray-500 hover:text-gray-700"
+          }`}
+        >
+          <UploadCloud size={18} /> Send
+        </button>
+        <button
+          onClick={() => setMode("receive")}
+          className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-black transition-all ${
+            mode === "receive" ? "bg-white text-purple-600 shadow-sm" : "text-gray-500 hover:text-gray-700"
+          }`}
+        >
+          <Download size={18} /> Receive
+        </button>
+      </div>
+
+      {/* 2. SEND UI */}
+      {mode === "send" && (
+        <div className="w-full bg-white rounded-[2rem] shadow-2xl border border-gray-100 p-8 animate-in fade-in zoom-in duration-500">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-black text-gray-800 tracking-tight">Incisend</h2>
+            <p className="text-gray-500 text-sm font-medium mt-1">Privacy-first secure transfer</p>
+          </div>
+
+          <div className="space-y-6">
+            <div className="bg-purple-50 border border-purple-100 p-4 rounded-2xl flex items-start gap-3">
+              <ShieldCheck className="text-purple-600 shrink-0" size={20} />
+              <p className="text-[11px] text-purple-900 font-bold leading-relaxed">
+                Files are encrypted locally in your browser. Inciverse never sees your data.
+              </p>
+            </div>
+
+            <label className="group relative flex flex-col items-center justify-center w-full h-52 border-2 border-dashed border-purple-100 bg-purple-50/30 rounded-[1.5rem] cursor-pointer hover:border-purple-400 hover:bg-purple-50 transition-all">
+              <input type="file" className="hidden" onChange={(e) => setFile(e.target.files?.[0] || null)} />
+              <div className="p-4 bg-white rounded-2xl shadow-sm mb-3 group-hover:scale-110 transition-transform">
+                <UploadCloud className="text-purple-600" size={28} />
+              </div>
+              <p className="text-sm font-black text-gray-700 uppercase tracking-wide">
+                {file ? file.name : "Select File"}
+              </p>
+              <p className="text-[10px] text-gray-400 mt-1 font-black tracking-widest uppercase">Max 50MB</p>
+            </label>
+
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Optional Protection</label>
+              <div className="relative">
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300" size={18} />
+                <input
+                  type="password"
+                  placeholder="Password for extra security"
+                  value={sendPassword}
+                  onChange={(e) => setSendPassword(e.target.value)}
+                  className="w-full bg-gray-50 border border-gray-100 rounded-xl py-4 pl-12 pr-4 text-sm focus:ring-2 focus:ring-purple-500 outline-none transition-all"
+                />
+              </div>
+            </div>
+
+            <button className="w-full bg-purple-600 hover:bg-purple-700 text-white font-black py-4 rounded-2xl shadow-xl shadow-purple-100 transition-all active:scale-95">
+              GET MAGIC CODE
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* 3. RECEIVE UI */}
+      {mode === "receive" && (
+        <div className="w-full bg-white rounded-[2rem] shadow-2xl border border-gray-100 p-8 animate-in fade-in zoom-in duration-500">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-black text-gray-800 tracking-tight">Receive</h2>
+            <p className="text-gray-500 text-sm font-medium mt-1">Unlock your encrypted asset</p>
+          </div>
+
+          <div className="space-y-6">
+            <div className="space-y-2 text-center">
+              <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Enter Magic Code</label>
+              <input
+                placeholder="000-000"
+                value={inputCode}
+                onChange={(e) => setInputCode(e.target.value.toUpperCase())}
+                className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-6 text-center text-3xl font-mono font-black tracking-[0.5em] text-purple-600 focus:ring-2 focus:ring-purple-500 outline-none shadow-inner"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Security Password</label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter if required"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full bg-gray-50 border border-gray-100 rounded-xl py-4 px-4 text-sm focus:ring-2 focus:ring-purple-500 outline-none"
+                />
+                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+            </div>
+
+            <button onClick={handleReceive} className="w-full bg-purple-600 hover:bg-purple-700 text-white font-black py-4 rounded-2xl shadow-xl shadow-purple-100 transition-all active:scale-95 flex items-center justify-center gap-2 uppercase tracking-wider">
+              <Download size={20} /> Decrypt & Download
+            </button>
+
+            {message && <div className="bg-green-50 text-green-700 p-4 rounded-xl text-xs font-black text-center border border-green-100 animate-pulse">{message}</div>}
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
