@@ -25,9 +25,9 @@ export default function ReceiveBox() {
       </p>
 
       {/* CARD */}
-      <div className="mt-10 bg-grey-900 border border-grey-800 rounded-xl p-6 space-y-6">
+      <div className="mt-10 bg-white-900 border border-{#8c52ff}-800 rounded-xl p-6 space-y-6">
         {/* SECURITY NOTE */}
-        <div className="flex items-center gap-2 bg-blue-900/30 text-blue-300 px-4 py-2 rounded-md text-sm">
+        <div className="flex items-center gap-2 bg-white-900/30 text-black-300 px-4 py-2 rounded-md text-sm">
           <Shield size={16} />
           Files auto-delete after download or 1 hour
         </div>
@@ -42,7 +42,7 @@ export default function ReceiveBox() {
             placeholder="ABC123"
             value={code}
             onChange={(e) => setCode(e.target.value.toUpperCase())}
-            className="w-full px-4 py-3 rounded-md bg-zinc-800 border border-zinc-700 text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500 tracking-widest"
+            className="w-full px-4 py-3 rounded-md bg-white-800 border border-{#8c52ff}-700 text-black placeholder:text-slate-500 focus:outline-none focus:border-blue-500 tracking-widest"
           />
         </div>
 
@@ -56,7 +56,7 @@ export default function ReceiveBox() {
             placeholder="Enter password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-3 rounded-md bg-zinc-800 border border-zinc-700 text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500"
+            className="w-full px-4 py-3 rounded-md bg-white-800 border border-{#8c52ff}-700 text-black placeholder:text-slate-500 focus:outline-none focus:border-blue-500"
           />
 
           <button
@@ -80,7 +80,7 @@ export default function ReceiveBox() {
 
         {/* SUCCESS */}
         {verified && (
-          <div className="bg-zinc-800 border border-zinc-700 rounded-md p-4 text-center">
+          <div className="bg-white-800 border border-{#8c52ff}-700 rounded-md p-4 text-center">
             <div className="text-green-400 flex items-center justify-center gap-2 mb-2">
               <Check size={18} />
               File verified
