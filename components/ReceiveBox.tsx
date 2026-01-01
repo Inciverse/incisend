@@ -43,10 +43,16 @@ export default function ReceiveBox() {
     
     const blob = await res.blob();
     const url = window.URL.createObjectURL(blob);
+    const disposition = res.headers.get("Content-Disposition");
+     let filename = "file";
+
+     if (disposition && disposition.includes("filename=")) {
+     filename = disposition.split("filename=")[1].replace(/"/g, "");
+     }
 
     const a = document.createElement("a");
     a.href = url;
-    a.download = "downloaded-file";
+    a.download = filename;
     document.body.appendChild(a);
     a.click();
 
