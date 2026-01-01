@@ -25,7 +25,7 @@ export default function ReceiveBox() {
       </p>
 
       {/* CARD */}
-      <div className="mt-10 bg-white-900 border border-{#8c52ff}-800 rounded-xl p-6 space-y-6">
+      <div className="mt-10 bg-white-900 border border-black-800 rounded-xl p-6 space-y-6">
         {/* SECURITY NOTE */}
         <div className="flex items-center gap-2 bg-white-900/30 text-black-300 px-4 py-2 rounded-md text-sm">
           <Shield size={16} />
