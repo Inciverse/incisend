@@ -1,112 +1,102 @@
 "use client";
 
 import { useState } from "react";
-import { Eye, EyeOff, Lock, Download, Shield, Check } from "lucide-react";
-
-const DEMO_CODE = "INCISEND";
-const DEMO_PASSWORD = "secure123";
+import { supabase } from "@/lib/supabaseClient";
+import { Eye, EyeOff, Download, Shield } from "lucide-react";
 
 export default function ReceiveBox() {
   const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [verified, setVerified] = useState(false);
+  const [fileUrl, setFileUrl] = useState<string | null>(null);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  function verifyFile() {
+  async function verifyFile() {
     setError("");
-    setVerified(false);
+    setLoading(true);
+    setFileUrl(null);
 
-    if (
-      code.trim() === DEMO_CODE &&
-      password === DEMO_PASSWORD
-    ) {
-      setVerified(true);
-    } else {
-      setError("Invalid secure code or password");
+    const { data, error } = await supabase
+      .from("files")
+      .select("*")
+      .eq("secure_code", code)
+      .single();
+
+    if (error || !data) {
+      setError("Invalid secure code");
+      setLoading(false);
+      return;
     }
+
+    if (data.password !== password) {
+      setError("Incorrect password");
+      setLoading(false);
+      return;
+    }
+
+    if (new Date(data.expires_at) < new Date()) {
+      setError("File has expired");
+      setLoading(false);
+      return;
+    }
+
+    setFileUrl(data.file_url);
+    setLoading(false);
   }
 
   return (
     <section className="max-w-xl mx-auto mt-24">
-      <h1 className="text-3xl font-bold text-center">
-        Receive a Secure File
-      </h1>
-      <p className="text-center text-slate-400 mt-2">
-        Enter the secure code and password to download the file.
-      </p>
+      <h1 className="text-3xl font-bold text-center">Receive a File</h1>
 
-      <div className="mt-10 bg-zinc-900 border border-zinc-800 rounded-xl p-6 space-y-6">
-        {/* SECURITY NOTE */}
+      <div className="mt-8 bg-zinc-900 border border-zinc-800 rounded-xl p-6 space-y-6">
         <div className="flex items-center gap-2 bg-blue-900/30 text-blue-300 px-4 py-2 rounded-md text-sm">
           <Shield size={16} />
           Files auto-delete after 1 hour
         </div>
 
-        {/* CODE */}
-        <div>
-          <label className="text-sm text-slate-400 block mb-1">
-            Secure Code
-          </label>
-          <input
-            type="text"
-            value={code}
-            onChange={(e) => setCode(e.target.value.toUpperCase())}
-            placeholder="INCISEND"
-            className="w-full px-4 py-3 rounded-md bg-zinc-800 border border-zinc-700 text-white tracking-widest focus:outline-none focus:border-blue-500"
-          />
-        </div>
+        <input
+          placeholder="Secure Code"
+          value={code}
+          onChange={(e) => setCode(e.target.value.toUpperCase())}
+          className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-md text-white"
+        />
 
-        {/* PASSWORD */}
         <div className="relative">
-          <label className="text-sm text-slate-400 block mb-1">
-            Password
-          </label>
           <input
             type={showPassword ? "text" : "password"}
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="secure123"
-            className="w-full px-4 py-3 rounded-md bg-zinc-800 border border-zinc-700 text-white focus:outline-none focus:border-blue-500"
+            className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-md text-white"
           />
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-9 text-slate-400"
+            className="absolute right-3 top-3 text-slate-400"
           >
             {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
           </button>
         </div>
 
-        {/* ERROR */}
-        {error && (
-          <p className="text-sm text-red-400 text-center">
-            {error}
-          </p>
-        )}
+        {error && <p className="text-red-400 text-sm">{error}</p>}
 
-        {/* VERIFY BUTTON */}
         <button
           onClick={verifyFile}
-          className="w-full py-3 rounded-md bg-blue-600 hover:bg-blue-700 transition font-medium flex items-center justify-center gap-2"
+          disabled={loading}
+          className="w-full py-3 bg-blue-600 rounded-md hover:bg-blue-700 transition"
         >
-          <Lock size={16} />
-          Verify File
+          {loading ? "Verifying..." : "Verify File"}
         </button>
 
-        {/* SUCCESS */}
-        {verified && (
-          <div className="bg-zinc-800 border border-zinc-700 rounded-md p-4 text-center">
-            <div className="text-green-400 flex items-center justify-center gap-2 mb-2">
-              <Check size={18} />
-              File verified successfully
-            </div>
-
-            <button className="mt-2 px-6 py-2 rounded-md bg-green-600 hover:bg-green-700 transition flex items-center gap-2 mx-auto">
-              <Download size={16} />
-              Download File
-            </button>
-          </div>
+        {fileUrl && (
+          <a
+            href={fileUrl}
+            className="block text-center py-3 bg-green-600 rounded-md hover:bg-green-700 transition"
+          >
+            <Download className="inline mr-2" size={16} />
+            Download File
+          </a>
         )}
       </div>
     </section>
