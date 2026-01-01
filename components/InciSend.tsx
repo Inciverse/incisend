@@ -162,6 +162,13 @@ export default function InciSend() {
             <div className="mt-2 text-4xl font-mono font-bold tracking-widest">
               {code}
             </div>
+            <button
+  onClick={() => navigator.clipboard.writeText(code)}
+  className="mt-3 text-xs underline opacity-80 hover:opacity-100"
+>
+  Copy Code
+</button>
+
             <p className="mt-2 text-xs text-indigo-200">
               Share this code + password
             </p>
