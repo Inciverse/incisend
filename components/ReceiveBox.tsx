@@ -8,19 +8,21 @@ export default function ReceiveBox() {
   const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [fileUrl, setFileUrl] = useState<string | null>(null);
-  const [error, setError] = useState("");
+
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
 
-  async function verifyFile() {
+  async function handleVerify() {
     setError("");
+    setDownloadUrl(null);
     setLoading(true);
-    setFileUrl(null);
 
+    // 1️⃣ Fetch file by secure code
     const { data, error } = await supabase
       .from("files")
       .select("*")
-      .eq("secure_code", code)
+      .eq("code", code.trim().toUpperCase())
       .single();
 
     if (error || !data) {
@@ -29,46 +31,69 @@ export default function ReceiveBox() {
       return;
     }
 
-    if (data.password !== password) {
+    // 2️⃣ Check password
+    if (data.password_hash !== password) {
       setError("Incorrect password");
       setLoading(false);
       return;
     }
 
+    // 3️⃣ Check expiry
     if (new Date(data.expires_at) < new Date()) {
-      setError("File has expired");
+      setError("This file has expired");
       setLoading(false);
       return;
     }
 
-    setFileUrl(data.file_url);
+    // 4️⃣ Create signed download URL
+    const { data: signed, error: signError } =
+      await supabase.storage
+        .from("files")
+        .createSignedUrl(data.file_path, 60);
+
+    if (signError || !signed) {
+      setError("Failed to generate download link");
+      setLoading(false);
+      return;
+    }
+
+    setDownloadUrl(signed.signedUrl);
     setLoading(false);
   }
 
   return (
     <section className="max-w-xl mx-auto mt-24">
-      <h1 className="text-3xl font-bold text-center">Receive a File</h1>
+      <h1 className="text-3xl font-bold text-center">
+        Receive a Secure File
+      </h1>
+      <p className="text-center text-slate-400 mt-2">
+        Enter the secure code and password to download.
+      </p>
 
-      <div className="mt-8 bg-zinc-900 border border-zinc-800 rounded-xl p-6 space-y-6">
+      <div className="mt-10 bg-zinc-900 border border-zinc-800 rounded-xl p-6 space-y-6">
+        {/* INFO */}
         <div className="flex items-center gap-2 bg-blue-900/30 text-blue-300 px-4 py-2 rounded-md text-sm">
           <Shield size={16} />
           Files auto-delete after 1 hour
         </div>
 
+        {/* CODE INPUT */}
         <input
-          placeholder="Secure Code"
+          type="text"
+          placeholder="SECURE CODE"
           value={code}
           onChange={(e) => setCode(e.target.value.toUpperCase())}
-          className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-md text-white"
+          className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-md text-white tracking-widest placeholder:text-slate-500 focus:outline-none focus:border-blue-500"
         />
 
+        {/* PASSWORD INPUT */}
         <div className="relative">
           <input
             type={showPassword ? "text" : "password"}
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-md text-white"
+            className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-md text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500"
           />
           <button
             type="button"
@@ -79,22 +104,29 @@ export default function ReceiveBox() {
           </button>
         </div>
 
-        {error && <p className="text-red-400 text-sm">{error}</p>}
+        {/* ERROR */}
+        {error && (
+          <p className="text-sm text-red-400 text-center">
+            {error}
+          </p>
+        )}
 
+        {/* VERIFY BUTTON */}
         <button
-          onClick={verifyFile}
+          onClick={handleVerify}
           disabled={loading}
-          className="w-full py-3 bg-blue-600 rounded-md hover:bg-blue-700 transition"
+          className="w-full py-3 rounded-md bg-blue-600 hover:bg-blue-700 transition font-medium"
         >
-          {loading ? "Verifying..." : "Verify File"}
+          {loading ? "Verifying..." : "Verify & Download"}
         </button>
 
-        {fileUrl && (
+        {/* DOWNLOAD */}
+        {downloadUrl && (
           <a
-            href={fileUrl}
-            className="block text-center py-3 bg-green-600 rounded-md hover:bg-green-700 transition"
+            href={downloadUrl}
+            className="block text-center py-3 rounded-md bg-green-600 hover:bg-green-700 transition font-medium"
           >
-            <Download className="inline mr-2" size={16} />
+            <Download size={16} className="inline mr-2" />
             Download File
           </a>
         )}
