@@ -8,14 +8,12 @@ function generateCode() {
   return Math.random().toString(36).substring(2, 8).toUpperCase();
 }
 
-export default function InciSend({ mode }: { mode: "send" | "receive" }) {
+export default function InciSend() {
   const [file, setFile] = useState<File | null>(null);
   const [password, setPassword] = useState("");
   const [code, setCode] = useState("");
-  const [inputCode, setInputCode] = useState("");
   const [message, setMessage] = useState("");
 
-  // ================= SEND =================
   const handleSend = async () => {
     if (!file || !password) {
       setMessage("Select file and password");
@@ -50,97 +48,59 @@ export default function InciSend({ mode }: { mode: "send" | "receive" }) {
     setMessage("File uploaded. Share the code & password.");
   };
 
-  // ================= RECEIVE =================
-  const handleReceive = async () => {
-    if (!inputCode || !password) {
-      setMessage("Enter code and password");
-      return;
-    }
-
-    const res = await fetch("/api/download", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        code: inputCode.trim(),
-        password,
-      }),
-    });
-
-    if (!res.ok) {
-      setMessage("Invalid code or file expired");
-      return;
-    }
-
-    const blob = await res.blob();
-    const url = window.URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "downloaded-file";
-    document.body.appendChild(a);
-    a.click();
-
-    a.remove();
-    window.URL.revokeObjectURL(url);
-
-    setMessage("File downloaded successfully");
-  };
-
-  // ================= UI =================
   return (
     <div style={{ maxWidth: 400, margin: "auto" }}>
-      {mode === "send" && (
-  <>
-    <input
-      type="file"
-      onChange={(e) => {
-        const selectedFile = e.target.files?.[0] || null;
-        if (!selectedFile) return;
+      <input
+        type="file"
+        onChange={(e) => {
+          const selectedFile = e.target.files?.[0] || null;
+          if (!selectedFile) return;
 
-        if (selectedFile.size > MAX_FILE_SIZE) {
-          alert("Max file size is 50MB");
-          e.target.value = "";
-          setFile(null);
-          return;
-        }
+          if (selectedFile.size > MAX_FILE_SIZE) {
+            alert("Max file size is 50MB");
+            e.target.value = "";
+            setFile(null);
+            return;
+          }
 
-        setFile(selectedFile);
-      }}
-    />
+          setFile(selectedFile);
+        }}
+      />
 
-    <input
-      type="password"
-      placeholder="Set password"
-      value={password}
-      onChange={(e) => setPassword(e.target.value)}
-    />
+      <input
+        type="password"
+        placeholder="Set password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
 
-    <br />
-    <br />
+      <br />
+      <br />
 
-    <button
-      onClick={handleSend}
-      className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 rounded-lg transition"
-    >
-      Generate Magic Code
-    </button>
+      <button
+        onClick={handleSend}
+        className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 rounded-lg transition"
+      >
+        Generate Magic Code
+      </button>
 
-    {code && (
-      <div className="mt-8 rounded-2xl bg-indigo-600 px-6 py-5 text-center shadow-xl">
-        <p className="text-xs uppercase tracking-widest text-indigo-200">
-          Your Magic Code
-        </p>
+      {code && (
+        <div className="mt-8 rounded-2xl bg-indigo-600 px-6 py-5 text-center shadow-xl">
+          <p className="text-xs uppercase tracking-widest text-indigo-200">
+            Your Magic Code
+          </p>
 
-        <div className="mt-2 text-4xl font-mono font-extrabold tracking-widest text-white">
-          {code}
+          <div className="mt-2 text-4xl font-mono font-extrabold tracking-widest text-white">
+            {code}
+          </div>
+
+          <p className="mt-3 text-xs text-indigo-200">
+            Share this code + password to download
+          </p>
         </div>
+      )}
 
-        <p className="mt-3 text-xs text-indigo-200">
-          Share this code + password to download
-        </p>
-      </div>
-    )}
-  </>
-)}
-
-
+      {message && <p>{message}</p>}
+    </div>
+  );
+}
