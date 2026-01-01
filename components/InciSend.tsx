@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
+
 import { Upload, Eye, EyeOff, Shield, Check } from "lucide-react";
 
 function generateCode() {
