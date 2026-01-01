@@ -96,7 +96,7 @@ export default function ReceiveBox() {
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-2.5 text-sm text-slate-500"
+            className="absolute right-3 top-2.7 text-sm text-slate-500"
           >
             {showPassword ? "Hide" : "Show"}
           </button>
