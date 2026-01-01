@@ -25,6 +25,24 @@ export default function Home() {
         </div>
       </div>
 
+      <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+  <div className="rounded-xl border p-4">
+    <p className="text-2xl font-bold">100+</p>
+    <p className="text-sm text-slate-500">Files Shared</p>
+  </div>
+
+  <div className="rounded-xl border p-4">
+    <p className="text-2xl font-bold">1 Hour</p>
+    <p className="text-sm text-slate-500">Auto Expiry</p>
+  </div>
+
+  <div className="rounded-xl border p-4">
+    <p className="text-2xl font-bold">AES-256</p>
+    <p className="text-sm text-slate-500">End-to-End Encryption</p>
+  </div>
+</div>
+
+
 {/* HOW IT WORKS */}
 <section className="max-w-6xl w-full">
   <h2 className="text-center text-2xl font-semibold mb-12">
