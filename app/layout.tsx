@@ -46,14 +46,6 @@ export default function RootLayout({
               The future of ephemeral data sharing.
             </p>
 
-          <p className="text-slate-500">
-            Possible expansions:
-            • Custom expiry times
-            • Team workspaces
-            • API access
-            • Paid storage extensions
-          </p>
-
             <div className="flex gap-6">
               <a href="/privacy" className="hover:text-black">
                 Privacy Policy
