@@ -8,15 +8,19 @@ export default function ReceiveBox() {
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [verified, setVerified] = useState(false);
+
 
   const handleReceive = async () => {
     if (!inputCode) {
+      setVerified(false);
       setMessage("Enter a valid secure code");
       return;
     }
 
     setLoading(true);
     setMessage("");
+    setVerified(false);
 
     const res = await fetch("/api/download", {
       method: "POST",
@@ -30,10 +34,13 @@ export default function ReceiveBox() {
     setLoading(false);
 
     if (!res.ok) {
+      setVerified(false);
       setMessage("Invalid code, wrong password, or file expired");
       return;
     }
 
+   setVerified(true)
+    
     const blob = await res.blob();
     const url = window.URL.createObjectURL(blob);
 
@@ -108,6 +115,12 @@ export default function ReceiveBox() {
         <p className="mt-3 text-center text-xs text-slate-400">
           Files are decrypted locally in your browser
         </p>
+        
+        {verified && (
+  <div className="mt-4 rounded-lg bg-green-50 p-3 text-green-700 text-sm text-center">
+    ✅ File verified. Downloading securely…
+  </div>
+)}
 
         {/* MESSAGE */}
         {message && (
