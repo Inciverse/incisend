@@ -10,7 +10,7 @@ export default function Home() {
         </h1>
 
         <p className="text-lg text-slate-600">
-          Share sensitive documents instantly. No accounts required — files are
+          Share sensitive (50 MB) of documents instantly. No accounts required — files are 
           encrypted and permanently deleted after 1 hour.
         </p>
 
