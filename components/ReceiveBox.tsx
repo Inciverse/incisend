@@ -1,22 +1,33 @@
 "use client";
 
 import { useState } from "react";
-import { Eye, EyeOff, Lock, Download, Shield, Check } from "lucide-react";
+import { Eye, EyeOff, Lock, Download, Shield, Check, X } from "lucide-react";
 
 export default function ReceiveBox() {
   const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
   const [verified, setVerified] = useState(false);
+  const [error, setError] = useState("");
 
   function verifyFile() {
-    if (!code || !password) return;
-    setVerified(true); // later this will be API-based
+    setError("");
+    setVerified(false);
+
+    // TEMP MOCK — later replace with API response
+    const VALID_CODE = "ABC123";
+    const VALID_PASSWORD = "secret123";
+
+    if (code === VALID_CODE && password === VALID_PASSWORD) {
+      setVerified(true);
+    } else {
+      setError("Invalid secure code or password");
+    }
   }
 
   return (
     <section className="max-w-xl mx-auto mt-24">
-      {/* TITLE */}
       <h1 className="text-3xl font-bold text-center">
         Receive a Secure File
       </h1>
@@ -24,41 +35,38 @@ export default function ReceiveBox() {
         Enter the secure code and password to download the file.
       </p>
 
-      {/* CARD */}
-      <div className="mt-10 bg-white-900 border border-black-800 rounded-xl p-6 space-y-6">
-        {/* SECURITY NOTE */}
-        <div className="flex items-center gap-2 bg-white-900/30 text-black-300 px-4 py-2 rounded-md text-sm">
+      <div className="mt-10 bg-zinc-900 border border-zinc-800 rounded-xl p-6 space-y-6">
+        <div className="flex items-center gap-2 bg-blue-900/30 text-blue-300 px-4 py-2 rounded-md text-sm">
           <Shield size={16} />
           Files auto-delete after download or 1 hour
         </div>
 
-        {/* CODE INPUT */}
+        {/* CODE */}
         <div>
           <label className="text-sm text-slate-400 mb-1 block">
             Secure Code
           </label>
           <input
             type="text"
-            placeholder="ABC123"
             value={code}
             onChange={(e) => setCode(e.target.value.toUpperCase())}
-            className="w-full px-4 py-3 rounded-md bg-white-800 border border-{#8c52ff}-700 text-black placeholder:text-slate-500 focus:outline-none focus:border-blue-500 tracking-widest"
+            placeholder="ABC123"
+            className="w-full px-4 py-3 rounded-md bg-zinc-800 border border-zinc-700 text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500 tracking-widest"
           />
         </div>
 
-        {/* PASSWORD INPUT */}
+        {/* PASSWORD */}
         <div className="relative">
           <label className="text-sm text-slate-400 mb-1 block">
             Password
           </label>
           <input
             type={showPassword ? "text" : "password"}
-            placeholder="Enter password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-3 rounded-md bg-white-800 border border-{#8c52ff}-700 text-black placeholder:text-slate-500 focus:outline-none focus:border-blue-500"
+            placeholder="Enter password"
+            className="w-full px-4 py-3 rounded-md bg-zinc-800 border border-zinc-700 text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500"
           />
-
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
@@ -72,18 +80,26 @@ export default function ReceiveBox() {
         <button
           onClick={verifyFile}
           disabled={!code || !password}
-          className="w-full py-3 rounded-md bg-[#8c52ff] hover:bg-[#7a41eb] disabled:opacity-50 transition font-medium flex items-center justify-center gap-2"
+          className="w-full py-3 rounded-md bg-blue-600 hover:bg-blue-700 disabled:opacity-50 transition font-medium flex items-center justify-center gap-2"
         >
           <Lock size={16} />
-          Verify & Download
+          Verify File
         </button>
+
+        {/* ERROR */}
+        {error && (
+          <div className="bg-red-900/30 border border-red-800 text-red-300 rounded-md px-4 py-2 text-sm flex items-center gap-2">
+            <X size={16} />
+            {error}
+          </div>
+        )}
 
         {/* SUCCESS */}
         {verified && (
-          <div className="bg-white-800 border border-{#8c52ff}-700 rounded-md p-4 text-center">
+          <div className="bg-zinc-800 border border-zinc-700 rounded-md p-4 text-center">
             <div className="text-green-400 flex items-center justify-center gap-2 mb-2">
               <Check size={18} />
-              File verified
+              File verified successfully
             </div>
             <button className="mt-2 px-6 py-2 rounded-md bg-green-600 hover:bg-green-700 transition flex items-center gap-2 mx-auto">
               <Download size={16} />
