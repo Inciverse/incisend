@@ -2,121 +2,145 @@
 
 import { useState } from "react";
 
-import { Upload, Eye, EyeOff, Shield, Check } from "lucide-react";
+const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 
 function generateCode() {
   return Math.random().toString(36).substring(2, 8).toUpperCase();
 }
 
-export default function Incisend() {
+export default function InciSend({ mode }: { mode: "send" | "receive" }) {
   const [file, setFile] = useState<File | null>(null);
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [code, setCode] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [code, setCode] = useState("");
+  const [inputCode, setInputCode] = useState("");
+  const [message, setMessage] = useState("");
 
-  async function handleUpload() {
+  // ================= SEND =================
+  const handleSend = async () => {
     if (!file || !password) {
-      setError("File and password required");
+      setMessage("Select file and password");
       return;
     }
 
-    setLoading(true);
-    setError("");
-
-    const secureCode = generateCode();
-    const filePath = `${secureCode}/${file.name}`;
-
-    // 1️⃣ Upload to storage
-    const { error: uploadError } = await supabase.storage
-      .from("files")
-      .upload(filePath, file);
-
-    if (uploadError) {
-      setError("Upload failed");
-      setLoading(false);
+    if (file.size > MAX_FILE_SIZE) {
+      setMessage("File is larger than 50MB");
       return;
     }
 
-    // 2️⃣ Insert DB record
-    const { error: dbError } = await supabase.from("files").insert({
-      code: secureCode,
-      file_path: filePath,
-      password_hash: password,
-      orignal_name: file.name,
-      mime_type: file.type,
-      expires_at: new Date(Date.now() + 60 * 60 * 1000),
+    const generatedCode = generateCode();
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("code", generatedCode);
+    formData.append("password", password);
+
+    const res = await fetch("/api/upload", {
+      method: "POST",
+      body: formData,
     });
 
-    if (dbError) {
-      setError("Database insert failed");
-      setLoading(false);
+    const json = await res.json();
+
+    if (!json.success) {
+      setMessage(json.error || "Upload failed");
       return;
     }
 
-    setCode(secureCode);
-    setLoading(false);
-  }
+    setCode(generatedCode);
+    setMessage("File uploaded. Share the code & password.");
+  };
 
+  // ================= RECEIVE =================
+  const handleReceive = async () => {
+    if (!inputCode || !password) {
+      setMessage("Enter code and password");
+      return;
+    }
+
+    const res = await fetch("/api/download", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        code: inputCode.trim(),
+        password,
+      }),
+    });
+
+    if (!res.ok) {
+      setMessage("Invalid code or file expired");
+      return;
+    }
+
+    const blob = await res.blob();
+    const url = window.URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "downloaded-file";
+    document.body.appendChild(a);
+    a.click();
+
+    a.remove();
+    window.URL.revokeObjectURL(url);
+
+    setMessage("File downloaded successfully");
+  };
+
+  // ================= UI =================
   return (
-    <section className="max-w-xl mx-auto mt-24">
-      <h1 className="text-3xl font-bold text-center">Send a Secure File</h1>
+    <div style={{ maxWidth: 400, margin: "auto" }}>
+      {mode === "send" && (
+  <>
+    <input
+      type="file"
+      onChange={(e) => {
+        const selectedFile = e.target.files?.[0] || null;
+        if (!selectedFile) return;
 
-      <div className="mt-8 bg-zinc-900 border border-zinc-800 rounded-xl p-6 space-y-6">
-        <div className="flex items-center gap-2 bg-blue-900/30 text-blue-300 px-4 py-2 rounded-md text-sm">
-          <Shield size={16} />
-          Files auto-delete after 1 hour
+        if (selectedFile.size > MAX_FILE_SIZE) {
+          alert("Max file size is 50MB");
+          e.target.value = "";
+          setFile(null);
+          return;
+        }
+
+        setFile(selectedFile);
+      }}
+    />
+
+    <input
+      type="password"
+      placeholder="Set password"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+    />
+
+    <br />
+    <br />
+
+    <button
+      onClick={handleSend}
+      className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 rounded-lg transition"
+    >
+      Generate Magic Code
+    </button>
+
+    {code && (
+      <div className="mt-8 rounded-2xl bg-indigo-600 px-6 py-5 text-center shadow-xl">
+        <p className="text-xs uppercase tracking-widest text-indigo-200">
+          Your Magic Code
+        </p>
+
+        <div className="mt-2 text-4xl font-mono font-extrabold tracking-widest text-white">
+          {code}
         </div>
 
-        <input
-          type="file"
-          onChange={(e) => setFile(e.target.files?.[0] || null)}
-          className="text-white"
-        />
-
-        {file && (
-          <p className="text-green-400 text-sm flex items-center gap-2">
-            <Check size={16} /> {file.name}
-          </p>
-        )}
-
-        <div className="relative">
-          <input
-            type={showPassword ? "text" : "password"}
-            placeholder="Set password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-md text-white"
-          />
-          <button
-            onClick={() => setShowPassword(!showPassword)}
-            type="button"
-            className="absolute right-3 top-3 text-slate-400"
-          >
-            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-          </button>
-        </div>
-
-        {error && <p className="text-red-400 text-sm">{error}</p>}
-
-        <button
-          onClick={handleUpload}
-          disabled={loading}
-          className="w-full py-3 bg-blue-600 rounded-md hover:bg-blue-700 transition"
-        >
-          {loading ? "Uploading..." : "Generate Secure Code"}
-        </button>
-
-        {code && (
-          <div className="bg-zinc-800 border border-zinc-700 rounded-md p-4 text-center">
-            <p className="text-slate-400 text-sm">Share this code</p>
-            <p className="text-2xl font-bold tracking-widest text-green-400">
-              {code}
-            </p>
-          </div>
-        )}
+        <p className="mt-3 text-xs text-indigo-200">
+          Share this code + password to download
+        </p>
       </div>
-    </section>
-  );
-}
+    )}
+  </>
+)}
+
+
