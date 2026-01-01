@@ -68,6 +68,7 @@ export default function InciSend() {
           Your file is encrypted locally. We never store passwords.
         </p>
       </div>
+    </div>
 
       {/* CARD */}
       <div className="rounded-2xl border bg-white p-6 shadow-sm">
