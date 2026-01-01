@@ -1,3 +1,10 @@
+:root {
+  --primary: #8c52ff;
+  --primary-hover: #7a44e6;
+  --primary-light: #f3ecff;
+  --primary-border: #e3d6ff;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
