@@ -173,6 +173,10 @@ export default function InciSend() {
               Share this code + password
             </p>
           </div>
+      <p className="mt-2 text-xs text-slate-400 text-center">
+  File will be permanently deleted after 1 hour
+</p>
+
         )}
 
         {message && (
