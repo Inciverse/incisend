@@ -5,13 +5,18 @@ import { useState } from "react";
 export default function ReceiveBox() {
   const [inputCode, setInputCode] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleReceive = async () => {
-    if (!inputCode || !password) {
-      setMessage("Enter code and password");
+    if (!inputCode) {
+      setMessage("Enter a valid secure code");
       return;
     }
+
+    setLoading(true);
+    setMessage("");
 
     const res = await fetch("/api/download", {
       method: "POST",
@@ -22,62 +27,95 @@ export default function ReceiveBox() {
       }),
     });
 
+    setLoading(false);
+
     if (!res.ok) {
-      setMessage("Invalid code or file expired");
+      setMessage("Invalid code, wrong password, or file expired");
       return;
     }
 
     const blob = await res.blob();
-const url = window.URL.createObjectURL(blob);
+    const url = window.URL.createObjectURL(blob);
 
-const disposition = res.headers.get("Content-Disposition");
-let filename = "file";
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "downloaded-file";
+    document.body.appendChild(a);
+    a.click();
 
-if (disposition && disposition.includes("filename=")) {
-  filename = disposition.split("filename=")[1].replace(/"/g, "");
-}
-
-const a = document.createElement("a");
-a.href = url;
-a.download = filename;
-document.body.appendChild(a);
-a.click();
-
-a.remove();
-window.URL.revokeObjectURL(url);
+    a.remove();
+    window.URL.revokeObjectURL(url);
 
     setMessage("File downloaded successfully");
   };
 
   return (
-    <div style={{ maxWidth: 400, margin: "auto" }}>
-      <input
-        placeholder="Enter magic code"
-        value={inputCode}
-        onChange={(e) => setInputCode(e.target.value.toUpperCase())}
-      />
+    <div className="mx-auto max-w-lg">
+      {/* HEADER */}
+      <div className="text-center mb-6">
+        <h1 className="text-2xl font-bold flex justify-center gap-2 items-center">
+          🔐 Receive File
+        </h1>
+        <p className="text-sm text-slate-500">
+          Enter your secure code to decrypt and download the file.
+        </p>
+      </div>
 
-      <br />
-      <br />
+      {/* CARD */}
+      <div className="rounded-2xl border bg-white p-6 shadow-sm">
+        {/* INFO BOX */}
+        <div className="mb-4 rounded-lg bg-indigo-50 p-3 text-sm text-indigo-700 flex gap-2">
+          <span>ℹ️</span>
+          <span>Files expire automatically after 1 hour</span>
+        </div>
 
-      <input
-        type="password"
-        placeholder="Enter password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+        {/* CODE INPUT */}
+        <input
+          placeholder="Enter secure code (ABC123)"
+          value={inputCode}
+          onChange={(e) => setInputCode(e.target.value.toUpperCase())}
+          className="mb-4 w-full rounded-lg border px-4 py-2"
+        />
 
-      <br />
-      <br />
+        {/* PASSWORD */}
+        <div className="relative mb-4">
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Password (only if sender set one)"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full rounded-lg border px-4 py-2 pr-10"
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-2.5 text-sm text-slate-500"
+          >
+            {showPassword ? "Hide" : "Show"}
+          </button>
+        </div>
 
-      <button
-        onClick={handleReceive}
-        className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 rounded-lg transition"
-      >
-        Download File
-      </button>
+        {/* ACTION */}
+        <button
+          onClick={handleReceive}
+          disabled={loading || !inputCode}
+          className="w-full rounded-lg bg-indigo-600 py-2 font-medium text-white hover:bg-indigo-700 transition disabled:opacity-60"
+        >
+          {loading ? "Verifying..." : "Decrypt & Download"}
+        </button>
 
-      {message && <p>{message}</p>}
+        {/* MICRO COPY */}
+        <p className="mt-3 text-center text-xs text-slate-400">
+          Files are decrypted locally in your browser
+        </p>
+
+        {/* MESSAGE */}
+        {message && (
+          <p className="mt-4 text-center text-sm text-slate-600">
+            {message}
+          </p>
+        )}
+      </div>
     </div>
   );
 }
