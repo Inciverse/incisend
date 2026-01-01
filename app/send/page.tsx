@@ -2,8 +2,8 @@ import InciSend from "../../components/InciSend";
 
 export default function SendPage() {
   return (
-    <main className="min-h-screen bg-[#F8FAFC] py-12">
-      {/* Explicitly telling the component to start in 'send' mode */}
+    <main className="min-h-screen bg-[#FDFDFF] py-16 px-4">
+      {/* initialMode prop ensures it always opens Send tab */}
       <InciSend initialMode="send" />
     </main>
   );
