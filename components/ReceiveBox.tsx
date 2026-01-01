@@ -72,7 +72,7 @@ export default function ReceiveBox() {
         <button
           onClick={verifyFile}
           disabled={!code || !password}
-          className="w-full py-3 rounded-md bg-blue-600 hover:bg-blue-700 disabled:opacity-50 transition font-medium flex items-center justify-center gap-2"
+          className="w-full py-3 rounded-md bg-[#8c52ff] hover:bg-[#7a41eb] disabled:opacity-50 transition font-medium flex items-center justify-center gap-2"
         >
           <Lock size={16} />
           Verify & Download
