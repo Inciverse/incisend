@@ -53,7 +53,7 @@ export default function RootLayout({
               <a href="/terms" className="hover:text-black">
                 Terms of Service
               </a>
-              <a href="/pricing" classname="hover:text-[#8c52ff]">
+              <a href="/pricing" className="hover:text-[#8c52ff]">
                 Pricing
               </a>
               <a href="/about#contact-us" className="hover:text-black">
