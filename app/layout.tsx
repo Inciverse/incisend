@@ -1,6 +1,8 @@
 import "./globals.css";
+import Image from "next/image";
+import type { Metadata } from "next";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Incisend",
   description: "Secure file sharing with magic code",
 };
@@ -12,24 +14,24 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen flex flex-col">
+      <body className="min-h-screen flex flex-col bg-white text-slate-800">
         {/* HEADER */}
         <header className="w-full border-b bg-white">
-          import Image from "next/image";
-
-           <div className="flex items-center gap-2">
-          <Image
-           src="/logo.png"
-            alt="Incisend"
-            width={32}
-             height={32}
-              priority
-               />
+          <div className="mx-auto max-w-6xl flex items-center justify-between px-6 py-4">
+            {/* LOGO */}
+            <div className="flex items-center gap-2">
+              <Image
+                src="/logo.png"
+                alt="Incisend"
+                width={32}
+                height={32}
+                priority
+              />
               <span className="font-bold text-lg">Incisend</span>
-               </div>
+            </div>
 
-
-            <div className="flex items-center gap-6 text-sm text-slate-500">
+            {/* NAV */}
+            <nav className="flex items-center gap-6 text-sm text-slate-500">
               <span>Secure file sharing</span>
               <a
                 href="/about"
@@ -37,7 +39,7 @@ export default function RootLayout({
               >
                 About Us
               </a>
-            </div>
+            </nav>
           </div>
         </header>
 
@@ -75,5 +77,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-
