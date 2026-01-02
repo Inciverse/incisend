@@ -19,7 +19,13 @@ export default function Home() {
             <button className="primary">Start Upload</button>
           </Link>
 
-          <Link href="/receive">
+          <Link href="/pricing">
+        <button className="border border-[var(--primary)] text-[var(--primary)] px-6 py-2 rounded-lg hover:bg-[var(--primary-light)] transition">
+        View Pricing
+         </button>
+          </Link>
+          
+            <Link href="/receive">
             <button className="secondary">Have a Code ?</button>
           </Link>
         </div>
