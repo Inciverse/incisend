@@ -1,6 +1,7 @@
 import "./globals.css";
 import Image from "next/image";
 import type { Metadata } from "next";
+import type React from "react";
 
 export const metadata: Metadata = {
   title: "Incisend",
