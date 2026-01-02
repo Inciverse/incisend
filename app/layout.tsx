@@ -17,18 +17,18 @@ export default function RootLayout({
         <html lang="en">
       <body className="min-h-screen flex flex-col">
         {/* HEADER */}
-        <header className="w-full border-b bg-white">
-          <div className="mx-auto max-w-6xl flex items-center px-6 py-4">
-            <a href="/" className="inline-flex items-center">
-              <Image
-                src="/logo.png"
-                alt="Incisend"
-                width={36}
-                height={36}
-                priority
-              />
-            </a>
-          </div>
+       <header className="w-full border-b bg-white">
+  <div className="mx-auto max-w-6xl px-6 py-4">
+    <a href="/" aria-label="Go to homepage">
+      <Image
+        src="/logo.png"
+        alt="Incisend"
+        width={40}
+        height={40}
+        priority
+      />
+    </a>
+  </div>
           
             {/* NAV */}
             <nav className="flex items-center gap-6 text-sm text-slate-500">
