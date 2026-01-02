@@ -1,5 +1,6 @@
 import "./globals.css";
 import Image from "next/image";
+import Link from "next/link";
 import type { Metadata } from "next";
 import type React from "react";
 
@@ -19,15 +20,17 @@ export default function RootLayout({
        
         <header className="w-full border-b bg-white">
           <div className="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a
-              href="/"
-              className="font-bold text-xl text- [var(--primary)"
-             style={{
-             fontFamily: "'Etna Sans Serif',"
-              }}
-               >
-              Incisend
-            </a>
+            
+            <Link href="/" className="flex items-center">
+              <Image
+                 src="/logo.png"
+                  alt="Incisend"
+               width={130}
+              height={32}
+               priority
+              />
+                </Link>
+
          
             {/* NAV */}
             <nav className="flex items-center gap-6 text-sm text-slate-500">
