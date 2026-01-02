@@ -21,9 +21,9 @@ export default function RootLayout({
           <div className="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
             <a
               href="/"
-              className="font-bold text-xl text-{#8c52ff}"
+              className="font-bold text-xl text- [var(--primary)"
              style={{
-             fontFamily: "'Etna Sans Serif', sans-serif",
+             fontFamily: "'Etna Sans Serif',"
               }}
                >
               Incisend
