@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 
