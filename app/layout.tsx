@@ -14,16 +14,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-        header className="w-full border-b bg-white">
+        <header className="w-full border-b bg-white">
           <div className="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
             <a
-                href="/"
-               className="text-xl font-bold"
-                 style={{ fontFamily: "'Etna', sans-serif" }}
-
-               >
+              href="/"
+              className="font-bold text-xl text-indigo-600"
+            >
               Incisend
-            </a>
+            </a> 
             {/* NAV */}
             <nav className="flex items-center gap-6 text-sm text-slate-500">
               <span>Secure file sharing</span>
