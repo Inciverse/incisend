@@ -76,7 +76,13 @@ export default function InciSend() {
           <span>🛡️</span>
           <span>AES-256 encryption · Auto-deletes after 1 hour</span>
         </div>
-
+        <Link href="/pricing">
+          <p className="mt-4 text-center text-sm text-gray-500">
+  Need larger files or longer expiry?{" "}
+  <Link href="/pricing" className="text-[#8c52ff] font-medium underline">
+    View pricing
+  </Link>
+</p>
         {/* DROP ZONE */}
         <div
           onDragOver={(e) => {
