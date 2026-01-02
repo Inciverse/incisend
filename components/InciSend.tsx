@@ -146,6 +146,18 @@ export default function InciSend() {
           {uploading ? "Uploading..." : "Generate Secure Code"}
         </button>
 
+       <p className="mt-3 text-center text-xs text-slate-400">
+  Free plan · 50MB · 1 hour expiry ·{" "}
+  <Link
+    href="/pricing"
+    className="text-[var(--primary)] underline"
+  >
+    Upgrade
+  </Link>
+</p>
+
+
+        
         {/* PROGRESS */}
         {uploading && (
           <div className="mt-3 h-2 w-full overflow-hidden rounded bg-slate-200">
