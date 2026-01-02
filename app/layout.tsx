@@ -16,19 +16,18 @@ export default function RootLayout({
     <html lang="en">
       <body className="min-h-screen flex flex-col bg-white text-slate-800">
         {/* HEADER */}
-        <header className="w-full border-b bg-white">
-          <div className="mx-auto max-w-6xl flex items-center justify-between px-6 py-4">
-            {/* LOGO */}
-            <div className="flex items-center gap-2">
-              <Image
+<header className="w-full border-b bg-white">
+  <div className="mx-auto max-w-6xl flex items-center px-6 py-4">
+    <a href="/" className="inline-flex items-center">
+                 <Image
                 src="/logo.png"
                 alt="Incisend"
-                width={32}
-                height={32}
+                width={36}
+                height={36}
                 priority
-              />
-              <span className="font-bold text-lg">Incisend</span>
-            </div>
+           />
+           </a>
+           </div>
 
             {/* NAV */}
             <nav className="flex items-center gap-6 text-sm text-slate-500">
