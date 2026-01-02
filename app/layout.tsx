@@ -13,22 +13,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen flex flex-col bg-white text-slate-800">
+        <html lang="en">
+      <body className="min-h-screen flex flex-col">
         {/* HEADER */}
-<header className="w-full border-b bg-white">
-  <div className="mx-auto max-w-6xl flex items-center px-6 py-4">
-    <a href="/" className="inline-flex items-center">
-                 <Image
+        <header className="w-full border-b bg-white">
+          <div className="mx-auto max-w-6xl flex items-center px-6 py-4">
+            <a href="/" className="inline-flex items-center">
+              <Image
                 src="/logo.png"
                 alt="Incisend"
                 width={36}
                 height={36}
                 priority
-           />
-           </a>
-           </div>
-
+              />
+            </a>
+          </div>
+          
             {/* NAV */}
             <nav className="flex items-center gap-6 text-sm text-slate-500">
               <span>Secure file sharing</span>
