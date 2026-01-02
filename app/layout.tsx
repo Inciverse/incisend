@@ -16,7 +16,7 @@ export default function RootLayout({
         {/* HEADER */}
         <header className="w-full border-b bg-white">
           <div className="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="/" className="font-bold text-xl text-indigo-600">
+            <a href="/" className="font-bold text-xl text-{#8c52ff}">
               Incisend
             </a>
 
