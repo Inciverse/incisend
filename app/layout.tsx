@@ -14,22 +14,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-        <html lang="en">
-      <body className="min-h-screen flex flex-col">
-        {/* HEADER */}
-       <header className="w-full border-b bg-white">
-  <div className="mx-auto max-w-6xl px-6 py-4">
-    <a href="/" aria-label="Go to homepage">
-      <Image
-        src="/logo.png"
-        alt="Incisend"
-        width={40}
-        height={40}
-        priority
-      />
-    </a>
-  </div>
-          
+        header className="w-full border-b bg-white">
+          <div className="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a
+                href="/"
+               className="text-xl font-bold"
+                 style={{ fontFamily: "'Etna', sans-serif" }}
+
+               >
+              Incisend
+            </a>
             {/* NAV */}
             <nav className="flex items-center gap-6 text-sm text-slate-500">
               <span>Secure file sharing</span>
