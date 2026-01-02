@@ -18,12 +18,6 @@ export default function Home() {
           <Link href="/send">
             <button className="primary">Start Upload</button>
           </Link>
-
-          <Link href="/pricing">
-        <button className="border border-[var(--primary)] text-[var(--primary)] px-6 py-2 rounded-lg hover:bg-[var(--primary-light)] transition">
-        View Pricing
-         </button>
-          </Link>
           
             <Link href="/receive">
             <button className="secondary">Have a Code ?</button>
@@ -138,6 +132,21 @@ export default function Home() {
     </div>
   </div>
 </section>
+      <div className="mt-24 rounded-2xl bg-[var(--primary-light)] p-8 text-center">
+  <h2 className="text-2xl font-bold">
+    Need higher limits or team access?
+  </h2>
+
+  <p className="mt-2 text-slate-600">
+    Upgrade to unlock larger files, longer expiry, and priority access.
+  </p>
+
+  <Link href="/pricing">
+    <button className="mt-6 bg-[var(--primary)] text-white px-6 py-3 rounded-lg hover:bg-[var(--primary-hover)] transition">
+      View Plans
+    </button>
+  </Link>
+</div>
 
       {/* BUILT WITH MODERN TECH */}
 <section className="max-w-6xl w-full mt-20 text-center">
