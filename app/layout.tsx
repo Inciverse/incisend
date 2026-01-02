@@ -25,8 +25,8 @@ export default function RootLayout({
               <Image
                  src="/logo.png"
                   alt="Incisend"
-               width={130}
-              height={32}
+               width={80}
+              height={16}
                priority
               />
                 </Link>
