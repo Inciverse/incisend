@@ -85,46 +85,46 @@ export default function InciSend() {
 </p>
 
         {/* DROP ZONE */}
-        <div
-          onDragOver={(e) => {
-            e.preventDefault();
-            setDragActive(true);
-          }}
-          onDragLeave={() => setDragActive(false)}
-          onDrop={(e) => {
-            e.preventDefault();
-            setDragActive(false);
-            const droppedFile = e.dataTransfer.files?.[0];
-            if (droppedFile) handleFile(droppedFile);
-          }}
-          className={`mb-4 cursor-pointer rounded-xl border-2 border-dashed p-6 text-center text-sm transition ${
-            dragActive ? "border-indigo-500 bg-indigo-50" : "border-slate-300"
-          }`}
-        >
-          <input
-            type="file"
-            className="hidden"
-            id="fileInput"
-            onChange={(e) => {
-              const f = e.target.files?.[0];
-              if (f) handleFile(f);
-            }}
-          />
+       <label
+       htmlFor="fileInput"
+      onDragOver={(e) => {
+       e.preventDefault();
+       setDragActive(true);
+       }}
+      onDragLeave={() => setDragActive(false)}
+     onDrop={(e) => {
+    e.preventDefault();
+    setDragActive(false);
+    const droppedFile = e.dataTransfer.files?.[0];
+    if (droppedFile) handleFile(droppedFile);
+   }}
+  className={`mb-4 block cursor-pointer rounded-xl border-2 border-dashed p-6 text-center text-sm transition ${
+    dragActive ? "border-indigo-500 bg-indigo-50" : "border-slate-300"
+  }`}
+ >
+   <input
+     type="file"
+     id="fileInput"
+     className="hidden"
+     onChange={(e) => {
+       const f = e.target.files?.[0];
+       if (f) handleFile(f);
+     }}
+     />
 
-          <label htmlFor="fileInput" className="cursor-pointer">
-            {file ? (
-              <span className="font-medium text-slate-700">
-                Selected: {file.name}
-              </span>
-            ) : (
-              <span>Drag & drop file here or click to choose</span>
-            )}
-          </label>
+  {file ? (
+    <span className="font-medium text-slate-700">
+      Selected: {file.name}
+    </span>
+  ) : (
+    <span>Drag & drop file here or click to choose</span>
+  )}
 
-          <div className="mt-2 text-xs text-slate-400">
-            Max file size: 50MB
-          </div>
-        </div>
+  <div className="mt-2 text-xs text-slate-400">
+    Max file size: 50MB
+  </div>
+</label>
+
 
         {/* PASSWORD */}
         <div className="relative mb-4">
