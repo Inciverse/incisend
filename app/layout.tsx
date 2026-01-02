@@ -13,19 +13,19 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
+ return (
+    <html lang="en">
+      <body className="min-h-screen flex flex-col">
+       
         <header className="w-full border-b bg-white">
-          <a
-         href="/"
-         className="font-bold text-xl"
-         style={{
-           fontFamily: "'Etna Sans Serif', sans-serif",
-             color: "#8c52ff",
-             }}
-             >
-            Incisend
+          <div className="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a
+              href="/"
+              className="font-bold text-xl text-indigo-600"
+            >
+              Incisend
             </a>
-
+         
             {/* NAV */}
             <nav className="flex items-center gap-6 text-sm text-slate-500">
               <span>Secure file sharing</span>
