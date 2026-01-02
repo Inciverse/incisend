@@ -15,10 +15,19 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col">
         {/* HEADER */}
         <header className="w-full border-b bg-white">
-          <div className="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="/" className="font-bold text-xl text-{#8c52ff}">
-              Incisend
-            </a>
+          import Image from "next/image";
+
+           <div className="flex items-center gap-2">
+          <Image
+           src="/logo.png"
+            alt="Incisend"
+            width={32}
+             height={32}
+              priority
+               />
+              <span className="font-bold text-lg">Incisend</span>
+               </div>
+
 
             <div className="flex items-center gap-6 text-sm text-slate-500">
               <span>Secure file sharing</span>
